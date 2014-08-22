@@ -7,12 +7,15 @@
 
 Name:           webkitgtk4
 Version:        2.5.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
 URL:            http://www.webkitgtk.org/
 Source0:        http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
+
+# https://bugs.webkit.org/show_bug.cgi?id=136130
+Patch0:         webkitgtk-2.5.3-toggle-buttons.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -66,6 +69,7 @@ files for developing applications that use %{name}.
 
 %prep
 %setup -q -n webkitgtk-%{version}
+%patch0 -p1 -b .toggle-buttons
 
 # Remove bundled libraries
 rm -rf Source/ThirdParty/leveldb/
@@ -139,6 +143,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gir-1.0/WebKit2WebExtension-4.0.gir
 
 %changelog
+* Fri Aug 22 2014 Michael Catanzaro <mcatanzaro@gnome.org> - 2.5.3-4
+- Add webkitgtk-2.5.3-toggle-buttons.patch
+
 * Thu Aug 21 2014 Kalev Lember <kalevlember@gmail.com> - 2.5.3-3
 - More package review fixes (#1131284)
 - Correct the license tag to read LGPLv2
