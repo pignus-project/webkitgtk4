@@ -7,15 +7,22 @@
 
 Name:           webkitgtk4
 Version:        2.5.3
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
 URL:            http://www.webkitgtk.org/
 Source0:        http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
 
+Patch0:         webkit-1.1.14-nspluginwrapper.patch
+Patch1:         webkitgtk-aarch64.patch
+Patch2:         webkitgtk-2.5.2-cloop_fix.patch
+Patch3:         webkitgtk-2.5.2-cloop_fix_32.patch
+Patch4:         webkitgtk-2.5.2-commit_align.patch
+# https://bugs.webkit.org/show_bug.cgi?id=135647
+Patch5:         webkitgtk-2.4.2-ppc64le.patch
 # https://bugs.webkit.org/show_bug.cgi?id=136130
-Patch0:         webkitgtk-2.5.3-toggle-buttons.patch
+Patch6:         webkitgtk-2.5.3-toggle-buttons.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -48,6 +55,9 @@ BuildRequires:  pcre-devel
 BuildRequires:  perl-Switch
 BuildRequires:  ruby
 BuildRequires:  sqlite-devel
+%ifarch ppc
+BuildRequires:  libatomic
+%endif
 Requires:       geoclue2
 
 # Filter out provides for private libraries
@@ -69,7 +79,21 @@ files for developing applications that use %{name}.
 
 %prep
 %setup -q -n webkitgtk-%{version}
-%patch0 -p1 -b .toggle-buttons
+%patch0 -p1 -b .nspluginwrapper
+%patch2 -p1 -b .cloop_fix
+%ifarch s390 ppc
+%patch3 -p1 -b .cloop_fix_32
+%endif
+%ifarch aarch64
+%patch1 -p1 -b .aarch64
+%endif
+%ifarch %{power64} aarch64 ppc
+%patch4 -p1 -b .commit_align
+%endif
+%ifarch %{power64}
+%patch5 -p1 -b .ppc64le
+%endif
+%patch6 -p1 -b .toggle-buttons
 
 # Remove bundled libraries
 rm -rf Source/ThirdParty/leveldb/
@@ -85,11 +109,24 @@ rm -rf Source/ThirdParty/qunit/
 %global optflags %(echo %{optflags} | sed 's/-g /-g1 /')
 %endif
 
+%ifarch ppc
+# Use linker flag -relax to get WebKit build under ppc(32) with JIT disabled
+%global optflags %{optflags} -Wl,-relax -latomic
+%endif
+
+%ifarch s390 s390x ppc %{power64} aarch64
+%global optflags %{optflags} -DENABLE_YARR_JIT=0
+%endif
+
 mkdir -p %{_target_platform}
 pushd %{_target_platform}
 %cmake \
   -DPORT=GTK \
   -DCMAKE_BUILD_TYPE=Release \
+%ifarch s390 s390x ppc %{power64} aarch64
+  -DENABLE_JIT=OFF \
+  -DENABLE_LLINT_C_LOOP=ON \
+%endif
   ..
 popd
 
@@ -143,6 +180,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gir-1.0/WebKit2WebExtension-4.0.gir
 
 %changelog
+* Mon Aug 25 2014 Tomas Popela <tpopela@redhat.com> - 2.5.3-5
+- Add support for secondary arches
+
 * Fri Aug 22 2014 Michael Catanzaro <mcatanzaro@gnome.org> - 2.5.3-4
 - Add webkitgtk-2.5.3-toggle-buttons.patch
 

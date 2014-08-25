@@ -1,0 +1,19 @@
+diff -up webkitgtk-2.1.90.1/Source/JavaScriptCore/llint/LowLevelInterpreter.asm.double2intsPPC32 webkitgtk-2.1.90.1/Source/JavaScriptCore/llint/LowLevelInterpreter.asm
+--- webkitgtk-2.1.90.1/Source/JavaScriptCore/llint/LowLevelInterpreter.asm.double2intsPPC32	2013-08-28 21:06:29.000000000 +0200
++++ webkitgtk-2.1.90.1/Source/JavaScriptCore/llint/LowLevelInterpreter.asm	2013-09-12 15:32:34.000000000 +0200
+@@ -276,13 +276,13 @@ macro assertNotConstant(index)
+ end
+ 
+ macro functionForCallCodeBlockGetter(targetRegister)
+-    loadp Callee[cfr], targetRegister
++    loadp Callee + PayloadOffset[cfr], targetRegister
+     loadp JSFunction::m_executable[targetRegister], targetRegister
+     loadp FunctionExecutable::m_codeBlockForCall[targetRegister], targetRegister
+ end
+ 
+ macro functionForConstructCodeBlockGetter(targetRegister)
+-    loadp Callee[cfr], targetRegister
++    loadp Callee + PayloadOffset[cfr], targetRegister
+     loadp JSFunction::m_executable[targetRegister], targetRegister
+     loadp FunctionExecutable::m_codeBlockForConstruct[targetRegister], targetRegister
+ end
