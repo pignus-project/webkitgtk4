@@ -7,7 +7,7 @@
 
 Name:           webkitgtk4
 Version:        2.5.3
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -180,6 +180,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gir-1.0/WebKit2WebExtension-4.0.gir
 
 %changelog
+* Tue Aug 26 2014 David Tardon <dtardon@redhat.com> - 2.5.3-6
+- rebuild for ICU 53.1
+
 * Mon Aug 25 2014 Tomas Popela <tpopela@redhat.com> - 2.5.3-5
 - Add support for secondary arches
 
