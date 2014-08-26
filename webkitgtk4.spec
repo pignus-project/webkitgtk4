@@ -7,7 +7,7 @@
 
 Name:           webkitgtk4
 Version:        2.5.3
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -59,6 +59,10 @@ BuildRequires:  sqlite-devel
 BuildRequires:  libatomic
 %endif
 Requires:       geoclue2
+
+# Obsolete libwebkit2gtk from the webkitgtk3 package
+Obsoletes:      libwebkit2gtk < 2.4.5-3
+Provides:       libwebkit2gtk = %{version}-%{release}
 
 # Filter out provides for private libraries
 %global __provides_exclude_from ^%{_libdir}/webkit2gtk-4\\.0/.*\\.so$
@@ -180,6 +184,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gir-1.0/WebKit2WebExtension-4.0.gir
 
 %changelog
+* Tue Aug 26 2014 Kalev Lember <kalevlember@gmail.com> - 2.5.3-7
+- Obsolete libwebkit2gtk from the webkitgtk3 package
+
 * Tue Aug 26 2014 David Tardon <dtardon@redhat.com> - 2.5.3-6
 - rebuild for ICU 53.1
 
