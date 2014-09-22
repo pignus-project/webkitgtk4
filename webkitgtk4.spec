@@ -6,8 +6,8 @@
         cp -p %1 _license_files/$(echo '%1' | sed -e 's!/!.!g')
 
 Name:           webkitgtk4
-Version:        2.5.3
-Release:        7%{?dist}
+Version:        2.5.90
+Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -15,14 +15,9 @@ URL:            http://www.webkitgtk.org/
 Source0:        http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
 
 Patch0:         webkit-1.1.14-nspluginwrapper.patch
-Patch1:         webkitgtk-aarch64.patch
-Patch2:         webkitgtk-2.5.2-cloop_fix.patch
-Patch3:         webkitgtk-2.5.2-cloop_fix_32.patch
-Patch4:         webkitgtk-2.5.2-commit_align.patch
-# https://bugs.webkit.org/show_bug.cgi?id=135647
-Patch5:         webkitgtk-2.4.2-ppc64le.patch
-# https://bugs.webkit.org/show_bug.cgi?id=136130
-Patch6:         webkitgtk-2.5.3-toggle-buttons.patch
+Patch1:         webkitgtk-2.5.90-cloop_fix.patch
+Patch2:         webkitgtk-2.5.90-cloop_fix_32.patch
+Patch3:         webkitgtk-2.5.2-commit_align.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -84,20 +79,13 @@ files for developing applications that use %{name}.
 %prep
 %setup -q -n webkitgtk-%{version}
 %patch0 -p1 -b .nspluginwrapper
-%patch2 -p1 -b .cloop_fix
+%patch1 -p1 -b .cloop_fix
 %ifarch s390 ppc
-%patch3 -p1 -b .cloop_fix_32
-%endif
-%ifarch aarch64
-%patch1 -p1 -b .aarch64
+%patch2 -p1 -b .cloop_fix_32
 %endif
 %ifarch %{power64} aarch64 ppc
-%patch4 -p1 -b .commit_align
+%patch3 -p1 -b .commit_align
 %endif
-%ifarch %{power64}
-%patch5 -p1 -b .ppc64le
-%endif
-%patch6 -p1 -b .toggle-buttons
 
 # Remove bundled libraries
 rm -rf Source/ThirdParty/leveldb/
@@ -118,19 +106,15 @@ rm -rf Source/ThirdParty/qunit/
 %global optflags %{optflags} -Wl,-relax -latomic
 %endif
 
-%ifarch s390 s390x ppc %{power64} aarch64
 %global optflags %{optflags} -DENABLE_YARR_JIT=0
-%endif
 
 mkdir -p %{_target_platform}
 pushd %{_target_platform}
 %cmake \
   -DPORT=GTK \
   -DCMAKE_BUILD_TYPE=Release \
-%ifarch s390 s390x ppc %{power64} aarch64
   -DENABLE_JIT=OFF \
   -DENABLE_LLINT_C_LOOP=ON \
-%endif
   ..
 popd
 
@@ -151,7 +135,6 @@ make %{?_smp_mflags} -C %{_target_platform}
 %add_to_license_files Source/WebCore/LICENSE-APPLE
 %add_to_license_files Source/WebCore/LICENSE-LGPL-2
 %add_to_license_files Source/WebCore/LICENSE-LGPL-2.1
-%add_to_license_files Source/WebInspectorUI/APPLE_IMAGES_LICENSE.rtf
 %add_to_license_files Source/WebInspectorUI/UserInterface/External/CodeMirror/LICENSE
 %add_to_license_files Source/WebInspectorUI/UserInterface/External/Esprima/LICENSE
 %add_to_license_files Source/WTF/icu/LICENSE
@@ -169,7 +152,7 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_libdir}/girepository-1.0/WebKit2-4.0.typelib
 %{_libdir}/girepository-1.0/WebKit2WebExtension-4.0.typelib
 %{_libdir}/webkit2gtk-4.0/
-%{_libexecdir}/webkitgtk-4.0/
+%{_libexecdir}/webkit2gtk-4.0/
 
 %files devel
 %{_bindir}/jsc
@@ -184,6 +167,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gir-1.0/WebKit2WebExtension-4.0.gir
 
 %changelog
+* Mon Sep 22 2014 Tomas Popela <tpopela@redhat.com> - 2.5.90-1
+- Update to 2.5.90
+
 * Tue Aug 26 2014 Kalev Lember <kalevlember@gmail.com> - 2.5.3-7
 - Obsolete libwebkit2gtk from the webkitgtk3 package
 

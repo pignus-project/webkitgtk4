@@ -1,7 +1,7 @@
-diff -up webkitgtk-2.1.90.1/Source/JavaScriptCore/llint/LowLevelInterpreter.asm.double2intsPPC32 webkitgtk-2.1.90.1/Source/JavaScriptCore/llint/LowLevelInterpreter.asm
---- webkitgtk-2.1.90.1/Source/JavaScriptCore/llint/LowLevelInterpreter.asm.double2intsPPC32	2013-08-28 21:06:29.000000000 +0200
-+++ webkitgtk-2.1.90.1/Source/JavaScriptCore/llint/LowLevelInterpreter.asm	2013-09-12 15:32:34.000000000 +0200
-@@ -276,13 +276,13 @@ macro assertNotConstant(index)
+diff -up webkitgtk-2.5.90/Source/JavaScriptCore/llint/LowLevelInterpreter.asm.cloop_fix_32 webkitgtk-2.5.90/Source/JavaScriptCore/llint/LowLevelInterpreter.asm
+--- webkitgtk-2.5.90/Source/JavaScriptCore/llint/LowLevelInterpreter.asm.cloop_fix_32	2014-09-22 13:53:39.777953541 +0200
++++ webkitgtk-2.5.90/Source/JavaScriptCore/llint/LowLevelInterpreter.asm	2014-09-22 13:54:32.813718555 +0200
+@@ -533,13 +533,13 @@ macro assertNotConstant(index)
  end
  
  macro functionForCallCodeBlockGetter(targetRegister)
