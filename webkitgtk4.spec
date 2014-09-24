@@ -6,7 +6,7 @@
         cp -p %1 _license_files/$(echo '%1' | sed -e 's!/!.!g')
 
 Name:           webkitgtk4
-Version:        2.5.90
+Version:        2.6.0
 Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
@@ -15,7 +15,6 @@ URL:            http://www.webkitgtk.org/
 Source0:        http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
 
 Patch0:         webkit-1.1.14-nspluginwrapper.patch
-Patch1:         webkitgtk-2.5.90-cloop_fix.patch
 Patch2:         webkitgtk-2.5.90-cloop_fix_32.patch
 Patch3:         webkitgtk-2.5.2-commit_align.patch
 
@@ -79,7 +78,6 @@ files for developing applications that use %{name}.
 %prep
 %setup -q -n webkitgtk-%{version}
 %patch0 -p1 -b .nspluginwrapper
-%patch1 -p1 -b .cloop_fix
 %ifarch s390 ppc
 %patch2 -p1 -b .cloop_fix_32
 %endif
@@ -167,6 +165,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gir-1.0/WebKit2WebExtension-4.0.gir
 
 %changelog
+* Wed Sep 24 2014 Kalev Lember <kalevlember@gmail.com> - 2.6.0-1
+- Update to 2.6.0
+
 * Mon Sep 22 2014 Tomas Popela <tpopela@redhat.com> - 2.5.90-1
 - Update to 2.5.90
 
