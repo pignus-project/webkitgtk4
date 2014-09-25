@@ -7,7 +7,7 @@
 
 Name:           webkitgtk4
 Version:        2.6.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -15,7 +15,7 @@ URL:            http://www.webkitgtk.org/
 Source0:        http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
 
 Patch0:         webkit-1.1.14-nspluginwrapper.patch
-Patch2:         webkitgtk-2.5.90-cloop_fix_32.patch
+Patch2:         webkitgtk-2.5.90-cloop_fix.patch
 Patch3:         webkitgtk-2.5.2-commit_align.patch
 
 BuildRequires:  at-spi2-core-devel
@@ -78,9 +78,7 @@ files for developing applications that use %{name}.
 %prep
 %setup -q -n webkitgtk-%{version}
 %patch0 -p1 -b .nspluginwrapper
-%ifarch s390 ppc
-%patch2 -p1 -b .cloop_fix_32
-%endif
+%patch2 -p1 -b .cloop_fix
 %ifarch %{power64} aarch64 ppc
 %patch3 -p1 -b .commit_align
 %endif
@@ -165,6 +163,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gir-1.0/WebKit2WebExtension-4.0.gir
 
 %changelog
+* Thu Sep 25 2014 Tomas Popela <tpopela@redhat.com> - 2.6.0-1
+- Add the wrongly removed CLoop patch and remove the one that was upstreamed
+
 * Wed Sep 24 2014 Kalev Lember <kalevlember@gmail.com> - 2.6.0-1
 - Update to 2.6.0
 
