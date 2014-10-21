@@ -7,7 +7,7 @@
 
 Name:           webkitgtk4
 Version:        2.6.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -17,6 +17,7 @@ Source0:        http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
 Patch0:         webkit-1.1.14-nspluginwrapper.patch
 Patch2:         webkitgtk-2.5.90-cloop_fix.patch
 Patch3:         webkitgtk-2.5.2-commit_align.patch
+Patch4:         webkitgtk-2.6.1-poodle.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -79,6 +80,7 @@ files for developing applications that use %{name}.
 %setup -q -n webkitgtk-%{version}
 %patch0 -p1 -b .nspluginwrapper
 %patch2 -p1 -b .cloop_fix
+%patch4 -p1 -b .poodle
 %ifarch %{power64} aarch64 ppc
 %patch3 -p1 -b .commit_align
 %endif
@@ -163,6 +165,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gir-1.0/WebKit2WebExtension-4.0.gir
 
 %changelog
+* Tue Oct 21 2014 Tomas Popela <tpopela@redhat.com> - 2.6.1-2
+- Disable the SSLv3 to address the POODLE vulnerability
+
 * Tue Oct 14 2014 Tomas Popela <tpopela@redhat.com> - 2.6.1-1
 - Update to 2.6.1
 

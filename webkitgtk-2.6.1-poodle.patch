@@ -1,0 +1,52 @@
+diff --git a/Source/WebKit2/NetworkProcess/EntryPoint/unix/NetworkProcessMain.cpp b/Source/WebKit2/NetworkProcess/EntryPoint/unix/NetworkProcessMain.cpp
+index 8d4287b3713ee93c0db80d178089112e1589e53b..c42baa8e94e16d8e8e97ae256d9a2496f144f958 100644
+--- a/Source/WebKit2/NetworkProcess/EntryPoint/unix/NetworkProcessMain.cpp
++++ b/Source/WebKit2/NetworkProcess/EntryPoint/unix/NetworkProcessMain.cpp
+@@ -25,9 +25,21 @@
+ 
+ #include "NetworkProcessMainUnix.h"
+ 
++#include <cstdlib>
++
+ using namespace WebKit;
+ 
+ int main(int argc, char** argv)
+ {
++    // Disable SSLv3 very early because it is practically impossible to safely
++    // use setenv() when multiple threads are running, as another thread calling
++    // getenv() could cause a crash, and many functions use getenv() internally.
++    // This workaround will stop working if glib-networking switches away from
++    // GnuTLS or simply stops parsing this variable. We intentionally do not
++    // overwrite this priority string if it's already set by the user.
++    // Keep this in sync with WebProcessMain.cpp.
++    // https://bugzilla.gnome.org/show_bug.cgi?id=738633
++    setenv("G_TLS_GNUTLS_PRIORITY", "NORMAL:%COMPAT:!VERS-SSL3.0", 0);
++
+     return NetworkProcessMainUnix(argc, argv);
+ }
+diff --git a/Source/WebKit2/WebProcess/EntryPoint/unix/WebProcessMain.cpp b/Source/WebKit2/WebProcess/EntryPoint/unix/WebProcessMain.cpp
+index 6c637fd237c3d75a5332d1e190cbc9e8226cbcae..260620a766911a8162cbb10717aa137cba3a9271 100644
+--- a/Source/WebKit2/WebProcess/EntryPoint/unix/WebProcessMain.cpp
++++ b/Source/WebKit2/WebProcess/EntryPoint/unix/WebProcessMain.cpp
+@@ -25,9 +25,21 @@
+ 
+ #include "WebProcessMainUnix.h"
+ 
++#include <cstdlib>
++
+ using namespace WebKit;
+ 
+ int main(int argc, char** argv)
+ {
++    // Disable SSLv3 very early because it is practically impossible to safely
++    // use setenv() when multiple threads are running, as another thread calling
++    // getenv() could cause a crash, and many functions use getenv() internally.
++    // This workaround will stop working if glib-networking switches away from
++    // GnuTLS or simply stops parsing this variable. We intentionally do not
++    // overwrite this priority string if it's already set by the user.
++    // Keep this in sync with NetworkProcessMain.cpp.
++    // https://bugzilla.gnome.org/show_bug.cgi?id=738633
++    setenv("G_TLS_GNUTLS_PRIORITY", "NORMAL:%COMPAT:!VERS-SSL3.0", 0);
++
+     return WebProcessMainUnix(argc, argv);
+ }
