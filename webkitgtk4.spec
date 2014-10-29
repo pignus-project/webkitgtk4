@@ -6,7 +6,7 @@
         cp -p %1 _license_files/$(echo '%1' | sed -e 's!/!.!g')
 
 Name:           webkitgtk4
-Version:        2.6.2
+Version:        2.7.1
 Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
@@ -163,6 +163,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gir-1.0/WebKit2WebExtension-4.0.gir
 
 %changelog
+* Wed Oct 29 2014 Tomas Popela <tpopela@redhat.com> - 2.7.1-1
+- Update to 2.7.1
+
 * Wed Oct 22 2014 Tomas Popela <tpopela@redhat.com> - 2.6.2-1
 - Update to 2.6.2
 
