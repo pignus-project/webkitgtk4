@@ -7,7 +7,7 @@
 
 Name:           webkitgtk4
 Version:        2.7.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -55,7 +55,7 @@ BuildRequires:  libatomic
 Requires:       geoclue2
 
 # Obsolete libwebkit2gtk from the webkitgtk3 package
-Obsoletes:      libwebkit2gtk < 2.4.7-2
+Obsoletes:      libwebkit2gtk < 2.5.0
 Provides:       libwebkit2gtk = %{version}-%{release}
 
 # Filter out provides for private libraries
@@ -163,6 +163,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gir-1.0/WebKit2WebExtension-4.0.gir
 
 %changelog
+* Fri Oct 31 2014 Michael Catanzaro <mcatanzaro@gnome.org> - 2.7.1-3
+- Obsolete libwebkit2gtk < 2.5.0 to be future-proof
+
 * Fri Oct 31 2014 Kalev Lember <kalevlember@gmail.com> - 2.7.1-2
 - Bump libwebkit2gtk obsoletes version
 
