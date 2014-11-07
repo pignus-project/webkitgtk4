@@ -7,7 +7,7 @@
 
 Name:           webkitgtk4
 Version:        2.7.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -35,6 +35,7 @@ BuildRequires:  gstreamer1-devel
 BuildRequires:  gstreamer1-plugins-base-devel
 BuildRequires:  gtk2-devel
 BuildRequires:  gtk3-devel
+BuildRequires:  gtk-doc
 BuildRequires:  harfbuzz-devel
 BuildRequires:  libicu-devel
 BuildRequires:  libjpeg-devel
@@ -75,6 +76,14 @@ Requires:       %{name}%{?_isa} = %{version}-%{release}
 The %{name}-devel package contains libraries, build data, and header
 files for developing applications that use %{name}.
 
+%package        doc
+Summary:        Documentation files for %{name}
+BuildArch:      noarch
+Requires:       %{name} = %{version}-%{release}
+
+%description    doc
+This package contains developer documentation for %{name}.
+
 %prep
 %setup -q -n webkitgtk-%{version}
 %patch0 -p1 -b .nspluginwrapper
@@ -109,6 +118,7 @@ pushd %{_target_platform}
 %cmake \
   -DPORT=GTK \
   -DCMAKE_BUILD_TYPE=Release \
+  -DENABLE_GTKDOC=ON \
   -DENABLE_JIT=OFF \
   -DENABLE_LLINT_C_LOOP=ON \
   ..
@@ -162,7 +172,16 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gir-1.0/WebKit2-4.0.gir
 %{_datadir}/gir-1.0/WebKit2WebExtension-4.0.gir
 
+%files doc
+%dir %{_datadir}/gtk-doc
+%dir %{_datadir}/gtk-doc/html
+%{_datadir}/gtk-doc/html/webkit2gtk-4.0/
+%{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
+
 %changelog
+* Fri Nov 07 2014 Kalev Lember <kalevlember@gmail.com> - 2.7.1-4
+- Build developer documentation
+
 * Fri Oct 31 2014 Michael Catanzaro <mcatanzaro@gnome.org> - 2.7.1-3
 - Obsolete libwebkit2gtk < 2.5.0 to be future-proof
 
