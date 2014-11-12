@@ -7,7 +7,7 @@
 
 Name:           webkitgtk4
 Version:        2.7.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -111,7 +111,9 @@ rm -rf Source/ThirdParty/qunit/
 %global optflags %{optflags} -Wl,-relax -latomic
 %endif
 
+%ifarch s390 s390x ppc %{power64} aarch64
 %global optflags %{optflags} -DENABLE_YARR_JIT=0
+%endif
 
 mkdir -p %{_target_platform}
 pushd %{_target_platform}
@@ -119,8 +121,10 @@ pushd %{_target_platform}
   -DPORT=GTK \
   -DCMAKE_BUILD_TYPE=Release \
   -DENABLE_GTKDOC=ON \
+%ifarch s390 s390x ppc %{power64} aarch64
   -DENABLE_JIT=OFF \
   -DENABLE_LLINT_C_LOOP=ON \
+%endif
   ..
 popd
 
@@ -179,6 +183,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Wed Nov 12 2014 Tomas Popela <tpopela@redhat.com> - 2.7.1-5
+- Enable JIT where possible (accidentally turned off when updating to 2.5.90)
+
 * Fri Nov 07 2014 Kalev Lember <kalevlember@gmail.com> - 2.7.1-4
 - Build developer documentation
 
