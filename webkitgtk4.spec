@@ -98,8 +98,11 @@ rm -rf Source/ThirdParty/gtest/
 rm -rf Source/ThirdParty/qunit/
 
 %build
-# Use linker flags to reduce memory consumption
+%ifarch s390 aarch64
+# Use linker flags to reduce memory consumption - on other arches the ld.gold is
+# used and also it doesn't have the --reduce-memory-overheads option
 %global optflags %{optflags} -Wl,--no-keep-memory -Wl,--reduce-memory-overheads
+%endif
 
 %ifarch s390 %{arm}
 # Decrease debuginfo verbosity to reduce memory consumption even more
@@ -115,15 +118,17 @@ rm -rf Source/ThirdParty/qunit/
 %global optflags %{optflags} -DENABLE_YARR_JIT=0
 %endif
 
-# Disable ld.gold for now as s390 does not have it.
-# Also aarch64 have it in upstream, but not packaged in Fedora.
+# Disable ld.gold on s390 as it does not have it.
+# Also for aarch64 as the support is in upstream, but not packaged in Fedora.
 mkdir -p %{_target_platform}
 pushd %{_target_platform}
 %cmake \
   -DPORT=GTK \
   -DCMAKE_BUILD_TYPE=Release \
   -DENABLE_GTKDOC=ON \
+%ifarch s390 aarch64
   -DUSE_LD_GOLD=OFF \
+%endif
 %ifarch s390 s390x ppc %{power64} aarch64
   -DENABLE_JIT=OFF \
   -DENABLE_LLINT_C_LOOP=ON \
@@ -188,7 +193,7 @@ make %{?_smp_mflags} -C %{_target_platform}
 %changelog
 * Mon Nov 24 2014 Tomas Popela <tpopela@redhat.com> - 2.7.2-1
 - Update to 2.7.2
-- Don't use ld.gold
+- Don't use ld.gold on s390 and aarch64
 
 * Wed Nov 12 2014 Tomas Popela <tpopela@redhat.com> - 2.7.1-5
 - Enable JIT where possible (accidentally turned off when updating to 2.5.90)
