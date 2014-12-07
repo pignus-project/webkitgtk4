@@ -5,9 +5,11 @@
         mkdir -p _license_files ; \
         cp -p %1 _license_files/$(echo '%1' | sed -e 's!/!.!g')
 
+%global _hardened_build 1
+
 Name:           webkitgtk4
 Version:        2.7.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -191,6 +193,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Sun Dec 07 2014 Michael Catanzaro <mcatanzaro@gnome.org> - 2.7.2-2
+- Enable hardened build
+
 * Mon Nov 24 2014 Tomas Popela <tpopela@redhat.com> - 2.7.2-1
 - Update to 2.7.2
 - Don't use ld.gold on s390 and aarch64
