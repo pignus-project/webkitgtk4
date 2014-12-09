@@ -1,0 +1,36 @@
+From a15a3ac0571bc1e3a5fb9c62e5b19a1f005445fb Mon Sep 17 00:00:00 2001
+From: Michael Catanzaro <mcatanzaro@igalia.com>
+Date: Tue, 9 Dec 2014 18:34:31 +0100
+Subject: [PATCH] Disable the PackageKit codec installer
+
+This is a workaround, not suitable for upstream.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=726326
+https://bugs.webkit.org/show_bug.cgi?id=135973
+---
+ .../platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.cpp  | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
+
+diff --git a/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.cpp b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.cpp
+index 8c9a637..55e0b8b 100644
+--- a/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.cpp
++++ b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.cpp
+@@ -1009,15 +1009,8 @@ gboolean MediaPlayerPrivateGStreamer::handleMessage(GstMessage* message)
+         gst_bin_recalculate_latency(GST_BIN(m_playBin.get()));
+         break;
+     case GST_MESSAGE_ELEMENT:
+-        if (gst_is_missing_plugin_message(message)) {
+-            gchar* detail = gst_missing_plugin_message_get_installer_detail(message);
+-            gchar* detailArray[2] = {detail, 0};
+-            GstInstallPluginsReturn result = gst_install_plugins_async(detailArray, 0, mediaPlayerPrivatePluginInstallerResultFunction, this);
+-            m_missingPlugins = result == GST_INSTALL_PLUGINS_STARTED_OK;
+-            g_free(detail);
+-        }
+ #if ENABLE(VIDEO_TRACK) && USE(GSTREAMER_MPEGTS)
+-        else {
++        if (!gst_is_missing_plugin_message(message)) {
+             GstMpegtsSection* section = gst_message_parse_mpegts_section(message);
+             if (section) {
+                 processMpegTsSection(section);
+--
+2.1.0
