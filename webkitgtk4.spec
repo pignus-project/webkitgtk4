@@ -93,8 +93,8 @@ This package contains developer documentation for %{name}.
 %patch2 -p1 -b .cloop_fix
 %ifarch %{power64} aarch64 ppc
 %patch3 -p1 -b .commit_align
-%patch4 -p1 -b .disable_codec_installer
 %endif
+%patch4 -p1 -b .disable_codec_installer
 
 # Remove bundled libraries
 rm -rf Source/ThirdParty/leveldb/
