@@ -16,7 +16,7 @@ index 8c9a637..55e0b8b 100644
 --- a/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.cpp
 +++ b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.cpp
 @@ -1009,15 +1009,8 @@ gboolean MediaPlayerPrivateGStreamer::handleMessage(GstMessage* message)
-         gst_bin_recalculate_latency(GST_BIN(m_playBin.get()));
+         }
          break;
      case GST_MESSAGE_ELEMENT:
 -        if (gst_is_missing_plugin_message(message)) {
