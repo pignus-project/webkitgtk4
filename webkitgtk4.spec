@@ -9,7 +9,7 @@
 
 Name:           webkitgtk4
 Version:        2.7.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -19,6 +19,7 @@ Source0:        http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
 Patch0:         webkit-1.1.14-nspluginwrapper.patch
 Patch2:         webkitgtk-2.5.90-cloop_fix.patch
 Patch3:         webkitgtk-2.5.2-commit_align.patch
+Patch4:	        webkitgtk-2.7.2-disable-codec-installer.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -92,6 +93,7 @@ This package contains developer documentation for %{name}.
 %patch2 -p1 -b .cloop_fix
 %ifarch %{power64} aarch64 ppc
 %patch3 -p1 -b .commit_align
+%patch4 -p1 -b .disable_codec_installer
 %endif
 
 # Remove bundled libraries
@@ -193,6 +195,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Tue Dec 09 2014 Michael Catanzaro <mcatanzaro@gnome.org> - 2.7.2-3
+- Disable the PackageKit codec installer
+
 * Sun Dec 07 2014 Michael Catanzaro <mcatanzaro@gnome.org> - 2.7.2-2
 - Enable hardened build
 
