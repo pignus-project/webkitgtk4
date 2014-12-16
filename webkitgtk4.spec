@@ -8,8 +8,8 @@
 %global _hardened_build 1
 
 Name:           webkitgtk4
-Version:        2.7.2
-Release:        3%{?dist}
+Version:        2.7.3
+Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -19,7 +19,9 @@ Source0:        http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
 Patch0:         webkit-1.1.14-nspluginwrapper.patch
 Patch2:         webkitgtk-2.5.90-cloop_fix.patch
 Patch3:         webkitgtk-2.5.2-commit_align.patch
-Patch4:	        webkitgtk-2.7.2-disable-codec-installer.patch
+# https://bugzilla.gnome.org/show_bug.cgi?id=726326
+# https://bugs.webkit.org/show_bug.cgi?id=135973
+Patch4:         webkitgtk-2.7.2-disable-codec-installer.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -195,6 +197,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Tue Dec 16 2014 Tomas Popela <tpopela@redhat.com> - 2.7.3-1
+- Update to 2.7.3
+
 * Tue Dec 09 2014 Michael Catanzaro <mcatanzaro@gnome.org> - 2.7.2-3
 - Disable the PackageKit codec installer
 
