@@ -9,7 +9,7 @@
 
 Name:           webkitgtk4
 Version:        2.7.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -110,7 +110,9 @@ rm -rf Source/ThirdParty/qunit/
 %global optflags %{optflags} -Wl,--no-keep-memory -Wl,--reduce-memory-overheads
 %endif
 
-%ifarch s390 %{arm}
+# Decrease debuginfo even on ix86 because of:
+# https://bugs.webkit.org/show_bug.cgi?id=140176
+%ifarch s390 %{arm} %{ix86}
 # Decrease debuginfo verbosity to reduce memory consumption even more
 %global optflags %(echo %{optflags} | sed 's/-g /-g1 /')
 %endif
@@ -197,6 +199,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Thu Jan 08 2015 Tomas Popela <tpopela@redhat.com> - 2.7.3-2
+- Decrease debuginfo verbosity on ix86 to let it build
+
 * Tue Dec 16 2014 Tomas Popela <tpopela@redhat.com> - 2.7.3-1
 - Update to 2.7.3
 
