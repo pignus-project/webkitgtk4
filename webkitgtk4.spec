@@ -99,6 +99,7 @@ This package contains developer documentation for %{name}.
 %patch3 -p1 -b .commit_align
 %endif
 %patch4 -p1 -b .disable_codec_installer
+%patch5 -p1 -b .compile_fix
 
 # Remove bundled libraries
 rm -rf Source/ThirdParty/leveldb/
