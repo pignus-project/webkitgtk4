@@ -1,0 +1,14 @@
+diff -up webkitgtk-2.7.3/Source/JavaScriptCore/runtime/BasicBlockLocation.cpp.compile_fix webkitgtk-2.7.3/Source/JavaScriptCore/runtime/BasicBlockLocation.cpp
+--- webkitgtk-2.7.3/Source/JavaScriptCore/runtime/BasicBlockLocation.cpp.compile_fix	2015-01-19 13:46:50.155816038 +0100
++++ webkitgtk-2.7.3/Source/JavaScriptCore/runtime/BasicBlockLocation.cpp	2015-01-19 13:45:47.554871028 +0100
+@@ -29,6 +29,10 @@
+ 
+ #include "CCallHelpers.h"
+ 
++#include <climits>
++
++#include <wtf/DataLog.h>
++
+ namespace JSC {
+ 
+ BasicBlockLocation::BasicBlockLocation(int startOffset, int endOffset)

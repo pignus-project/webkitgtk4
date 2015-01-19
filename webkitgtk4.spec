@@ -9,7 +9,7 @@
 
 Name:           webkitgtk4
 Version:        2.7.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -22,6 +22,8 @@ Patch3:         webkitgtk-2.5.2-commit_align.patch
 # https://bugzilla.gnome.org/show_bug.cgi?id=726326
 # https://bugs.webkit.org/show_bug.cgi?id=135973
 Patch4:         webkitgtk-2.7.2-disable-codec-installer.patch
+# https://bugs.webkit.org/show_bug.cgi?id=140616
+Patch5:         webkitgtk-2.7.3-compile_fix.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -199,6 +201,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Mon Jan 19 2015 Tomas Popela <tpopela@redhat.com> - 2.7.3-3
+- Fix compilation on secondary arches
+
 * Thu Jan 08 2015 Tomas Popela <tpopela@redhat.com> - 2.7.3-2
 - Decrease debuginfo verbosity on ix86 to let it build
 
