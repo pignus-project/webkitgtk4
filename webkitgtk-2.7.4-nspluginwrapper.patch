@@ -1,0 +1,13 @@
+diff -up webkitgtk-2.7.4/Source/WebKit2/UIProcess/Plugins/unix/PluginInfoStoreUnix.cpp.nspluginwrapper webkitgtk-2.7.4/Source/WebKit2/UIProcess/Plugins/unix/PluginInfoStoreUnix.cpp
+--- webkitgtk-2.7.4/Source/WebKit2/UIProcess/Plugins/unix/PluginInfoStoreUnix.cpp.nspluginwrapper	2015-01-20 16:03:04.559447393 +0100
++++ webkitgtk-2.7.4/Source/WebKit2/UIProcess/Plugins/unix/PluginInfoStoreUnix.cpp	2015-01-20 16:04:01.525303372 +0100
+@@ -66,6 +66,9 @@ Vector<String> PluginInfoStore::pluginsD
+     result.append("/usr/lib64/mozilla/plugins");
+     result.append("/usr/lib/nsbrowser/plugins");
+     result.append("/usr/lib64/nsbrowser/plugins");
++    /* nspluginwrapper plugins */
++    result.append("/usr/lib64/mozilla/plugins-wrapped");
++    result.append("/usr/lib/mozilla/plugins-wrapped");
+ 
+     String mozillaHome(getenv("MOZILLA_HOME"));
+     if (!mozillaHome.isEmpty())
