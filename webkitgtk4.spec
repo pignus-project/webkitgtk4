@@ -9,7 +9,7 @@
 
 Name:           webkitgtk4
 Version:        2.7.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -202,6 +202,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Mon Jan 26 2015 David Tardon <dtardon@redhat.com> - 2.7.4-2
+- rebuild for ICU 54.1
+
 * Tue Jan 20 2015 Tomas Popela <tpopela@redhat.com> - 2.7.4-1
 - Update to 2.7.4
 
