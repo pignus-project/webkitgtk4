@@ -7,7 +7,7 @@
 
 Name:           webkitgtk4
 Version:        2.7.4
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -138,10 +138,9 @@ pushd %{_target_platform}
 %ifarch s390 aarch64
   -DUSE_LD_GOLD=OFF \
 %endif
-%ifarch s390 s390x ppc %{power64} aarch64
+# Should only be disabled on s390 s390x ppc %{power64} aarch64
   -DENABLE_JIT=OFF \
   -DENABLE_LLINT_C_LOOP=ON \
-%endif
   ..
 popd
 
