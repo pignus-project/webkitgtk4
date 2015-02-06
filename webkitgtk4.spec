@@ -5,11 +5,9 @@
         mkdir -p _license_files ; \
         cp -p %1 _license_files/$(echo '%1' | sed -e 's!/!.!g')
 
-%global _hardened_build 1
-
 Name:           webkitgtk4
 Version:        2.7.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -202,6 +200,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Thu Feb 05 2015 Michael Catanzaro <mcatanzaro@gnome.org> - 2.7.4-3
+- Disable hardened build to see if it fixes js
+
 * Mon Jan 26 2015 David Tardon <dtardon@redhat.com> - 2.7.4-2
 - rebuild for ICU 54.1
 
