@@ -5,9 +5,11 @@
         mkdir -p _license_files ; \
         cp -p %1 _license_files/$(echo '%1' | sed -e 's!/!.!g')
 
+%global _hardened_build 1
+
 Name:           webkitgtk4
 Version:        2.7.4
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -138,8 +140,10 @@ pushd %{_target_platform}
 %ifarch s390 aarch64
   -DUSE_LD_GOLD=OFF \
 %endif
+%ifarch s390 s390x ppc %{power64} aarch64
   -DENABLE_JIT=OFF \
   -DENABLE_LLINT_C_LOOP=ON \
+%endif
   ..
 popd
 
@@ -198,6 +202,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Fri Feb 06 2015 Michael Catanzaro <mcatanzaro@gnome.org> - 2.7.4-5
+- Revert yesterday's changes since they don't help.
+
 * Thu Feb 05 2015 Michael Catanzaro <mcatanzaro@gnome.org> - 2.7.4-4
 - Disable JIT to see if it fixes js.
 
