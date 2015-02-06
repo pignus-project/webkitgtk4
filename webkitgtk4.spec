@@ -138,7 +138,6 @@ pushd %{_target_platform}
 %ifarch s390 aarch64
   -DUSE_LD_GOLD=OFF \
 %endif
-# Should only be disabled on s390 s390x ppc %{power64} aarch64
   -DENABLE_JIT=OFF \
   -DENABLE_LLINT_C_LOOP=ON \
   ..
