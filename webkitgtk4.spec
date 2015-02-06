@@ -199,6 +199,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Thu Feb 05 2015 Michael Catanzaro <mcatanzaro@gnome.org> - 2.7.4-4
+- Disable JIT to see if it fixes js.
+
 * Thu Feb 05 2015 Michael Catanzaro <mcatanzaro@gnome.org> - 2.7.4-3
 - Disable hardened build to see if it fixes js
 
