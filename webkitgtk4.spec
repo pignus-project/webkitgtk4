@@ -9,7 +9,7 @@
 
 Name:           webkitgtk4
 Version:        2.7.4
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -24,6 +24,8 @@ Patch3:         webkitgtk-2.5.2-commit_align.patch
 Patch4:         webkitgtk-2.7.2-disable-codec-installer.patch
 # https://bugs.webkit.org/show_bug.cgi?id=140616
 Patch5:         webkitgtk-2.7.3-compile_fix.patch
+# https://bugs.webkit.org/show_bug.cgi?id=141381
+Patch6:         webkitgtk-2.7.4-gmutexlocker.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -94,12 +96,14 @@ This package contains developer documentation for %{name}.
 %prep
 %setup -q -n webkitgtk-%{version}
 %patch0 -p1 -b .nspluginwrapper
-%patch2 -p1 -b .cloop_fix
+# FIXME Temporarily disabled due to https://bugzilla.redhat.com/show_bug.cgi?id=1167004
+#%patch2 -p1 -b .cloop_fix
 %ifarch %{power64} aarch64 ppc
 %patch3 -p1 -b .commit_align
 %endif
 %patch4 -p1 -b .disable_codec_installer
 %patch5 -p1 -b .compile_fix
+%patch6 -p1 -b .gmutexlocker
 
 # Remove bundled libraries
 rm -rf Source/ThirdParty/leveldb/
@@ -202,6 +206,10 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Tue Feb 10 2015 Michael Catanzaro <mcatanzaro@gnome.org> - 2.7.4-6
+- Temporarily disable cloop patch since it breaks js
+- Add patch for gmutexlocker namespace collision with glib 2.43.4
+
 * Fri Feb 06 2015 Michael Catanzaro <mcatanzaro@gnome.org> - 2.7.4-5
 - Revert yesterday's changes since they don't help.
 
