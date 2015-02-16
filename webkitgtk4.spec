@@ -9,7 +9,7 @@
 
 Name:           webkitgtk4
 Version:        2.7.4
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -19,13 +19,10 @@ Source0:        http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
 Patch0:         webkitgtk-2.7.4-nspluginwrapper.patch
 Patch2:         webkitgtk-2.5.90-cloop_fix.patch
 Patch3:         webkitgtk-2.5.2-commit_align.patch
-# https://bugzilla.gnome.org/show_bug.cgi?id=726326
-# https://bugs.webkit.org/show_bug.cgi?id=135973
-Patch4:         webkitgtk-2.7.2-disable-codec-installer.patch
 # https://bugs.webkit.org/show_bug.cgi?id=140616
-Patch5:         webkitgtk-2.7.3-compile_fix.patch
+Patch4:         webkitgtk-2.7.3-compile_fix.patch
 # https://bugs.webkit.org/show_bug.cgi?id=141381
-Patch6:         webkitgtk-2.7.4-gmutexlocker.patch
+Patch5:         webkitgtk-2.7.4-gmutexlocker.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -101,9 +98,8 @@ This package contains developer documentation for %{name}.
 %ifarch %{power64} aarch64 ppc
 %patch3 -p1 -b .commit_align
 %endif
-%patch4 -p1 -b .disable_codec_installer
-%patch5 -p1 -b .compile_fix
-%patch6 -p1 -b .gmutexlocker
+%patch4 -p1 -b .compile_fix
+%patch5 -p1 -b .gmutexlocker
 
 # Remove bundled libraries
 rm -rf Source/ThirdParty/leveldb/
@@ -206,6 +202,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Mon Feb 16 2015 Michael Catanzaro <mcatanzaro@gnome.org> - 2.7.4-7
+- Remove disable codec installer patch, not needed in GNOME 3.15.90
+
 * Tue Feb 10 2015 Michael Catanzaro <mcatanzaro@gnome.org> - 2.7.4-6
 - Temporarily disable cloop patch since it breaks js
 - Add patch for gmutexlocker namespace collision with glib 2.43.4
