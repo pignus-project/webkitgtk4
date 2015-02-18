@@ -8,7 +8,7 @@
 %global _hardened_build 1
 
 Name:           webkitgtk4
-Version:        2.7.4
+Version:        2.7.90
 Release:        7%{?dist}
 Summary:        GTK+ Web content engine library
 
@@ -19,10 +19,6 @@ Source0:        http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
 Patch0:         webkitgtk-2.7.4-nspluginwrapper.patch
 Patch2:         webkitgtk-2.5.90-cloop_fix.patch
 Patch3:         webkitgtk-2.5.2-commit_align.patch
-# https://bugs.webkit.org/show_bug.cgi?id=140616
-Patch4:         webkitgtk-2.7.3-compile_fix.patch
-# https://bugs.webkit.org/show_bug.cgi?id=141381
-Patch5:         webkitgtk-2.7.4-gmutexlocker.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -98,8 +94,6 @@ This package contains developer documentation for %{name}.
 %ifarch %{power64} aarch64 ppc
 %patch3 -p1 -b .commit_align
 %endif
-%patch4 -p1 -b .compile_fix
-%patch5 -p1 -b .gmutexlocker
 
 # Remove bundled libraries
 rm -rf Source/ThirdParty/leveldb/
@@ -202,6 +196,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Wed Feb 18 2015 Tomas Popela <tpopela@redhat.com> - 2.7.90-1
+- Update to 2.7.90
+
 * Mon Feb 16 2015 Michael Catanzaro <mcatanzaro@gnome.org> - 2.7.4-7
 - Remove disable codec installer patch, not needed in GNOME 3.15.90
 
