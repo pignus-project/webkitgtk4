@@ -1,0 +1,23 @@
+diff -up webkitgtk-2.7.90/Source/JavaScriptCore/llint/LLIntSlowPaths.cpp.180248 webkitgtk-2.7.90/Source/JavaScriptCore/llint/LLIntSlowPaths.cpp
+--- webkitgtk-2.7.90/Source/JavaScriptCore/llint/LLIntSlowPaths.cpp.180248	2015-02-17 08:08:23.000000000 +0100
++++ webkitgtk-2.7.90/Source/JavaScriptCore/llint/LLIntSlowPaths.cpp	2015-02-18 11:15:39.060933863 +0100
+@@ -490,6 +490,7 @@ LLINT_SLOW_PATH_DECL(stack_check)
+         LLINT_RETURN_TWO(pc, 0);
+ #endif
+ 
++    exec = exec->callerFrame(vm.topVMEntryFrame);
+     vm.topCallFrame = exec;
+     ErrorHandlingScope errorScope(vm);
+     CommonSlowPaths::interpreterThrowInCaller(exec, createStackOverflowError(exec));
+diff -up webkitgtk-2.7.90/Source/JavaScriptCore/llint/LowLevelInterpreter.asm.180248 webkitgtk-2.7.90/Source/JavaScriptCore/llint/LowLevelInterpreter.asm
+--- webkitgtk-2.7.90/Source/JavaScriptCore/llint/LowLevelInterpreter.asm.180248	2015-02-18 11:14:23.098753714 +0100
++++ webkitgtk-2.7.90/Source/JavaScriptCore/llint/LowLevelInterpreter.asm	2015-02-18 11:15:39.059933848 +0100
+@@ -633,7 +633,7 @@ macro prologue(codeBlockGetter, codeBloc
+ .stackHeightOKGetCodeBlock:
+     # Stack check slow path returned that the stack was ok.
+     # Since they were clobbered, need to get CodeBlock and new sp
+-    codeBlockGetter(t1)
++    codeBlockSetter(t1)
+     getFrameRegisterSizeForCodeBlock(t1, t0)
+     subp cfr, t0, t0
+ 

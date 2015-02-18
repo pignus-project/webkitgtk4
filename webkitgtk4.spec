@@ -19,6 +19,12 @@ Source0:        http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
 Patch0:         webkitgtk-2.7.4-nspluginwrapper.patch
 Patch2:         webkitgtk-2.5.90-cloop_fix.patch
 Patch3:         webkitgtk-2.5.2-commit_align.patch
+# https://bugs.webkit.org/show_bug.cgi?id=141717
+Patch4:         webkitgtk-2.7.90-180234.patch
+# https://bugs.webkit.org/show_bug.cgi?id=141733
+Patch5:         webkitgtk-2.7.90-180248.patch
+# https://bugs.webkit.org/show_bug.cgi?id=141618
+Patch6:         webkitgtk-2.7.90-180258.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -94,6 +100,9 @@ This package contains developer documentation for %{name}.
 %ifarch %{power64} aarch64 ppc
 %patch3 -p1 -b .commit_align
 %endif
+%patch4 -p1 -b .180234
+%patch5 -p1 -b .180248
+%patch6 -p1 -b .180258
 
 # Remove bundled libraries
 rm -rf Source/ThirdParty/leveldb/
@@ -198,6 +207,7 @@ make %{?_smp_mflags} -C %{_target_platform}
 %changelog
 * Wed Feb 18 2015 Tomas Popela <tpopela@redhat.com> - 2.7.90-1
 - Update to 2.7.90
+- Add JIT and CLoop fixes
 
 * Mon Feb 16 2015 Michael Catanzaro <mcatanzaro@gnome.org> - 2.7.4-7
 - Remove disable codec installer patch, not needed in GNOME 3.15.90
