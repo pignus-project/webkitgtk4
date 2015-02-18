@@ -25,6 +25,7 @@ Patch4:         webkitgtk-2.7.90-180234.patch
 Patch5:         webkitgtk-2.7.90-180248.patch
 # https://bugs.webkit.org/show_bug.cgi?id=141618
 Patch6:         webkitgtk-2.7.90-180258.patch
+# http://trac.webkit.org/changeset/180264
 Patch7:         webkitgtk-2.7.90-bmalloc_static.patch
 
 BuildRequires:  at-spi2-core-devel
