@@ -25,6 +25,7 @@ Patch4:         webkitgtk-2.7.90-180234.patch
 Patch5:         webkitgtk-2.7.90-180248.patch
 # https://bugs.webkit.org/show_bug.cgi?id=141618
 Patch6:         webkitgtk-2.7.90-180258.patch
+Patch7:         webkitgtk-2.7.90-bmalloc_static.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -103,6 +104,7 @@ This package contains developer documentation for %{name}.
 %patch4 -p1 -b .180234
 %patch5 -p1 -b .180248
 %patch6 -p1 -b .180258
+%patch7 -p1 -b .bmalloc_static
 
 # Remove bundled libraries
 rm -rf Source/ThirdParty/leveldb/
