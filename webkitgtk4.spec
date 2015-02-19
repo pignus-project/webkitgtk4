@@ -9,7 +9,7 @@
 
 Name:           webkitgtk4
 Version:        2.7.90
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -22,6 +22,7 @@ Patch3:         webkitgtk-2.5.2-commit_align.patch
 # https://bugs.webkit.org/show_bug.cgi?id=141717
 Patch4:         webkitgtk-2.7.90-180234.patch
 # https://bugs.webkit.org/show_bug.cgi?id=141733
+# http://trac.webkit.org/changeset/180270
 Patch5:         webkitgtk-2.7.90-180248.patch
 # https://bugs.webkit.org/show_bug.cgi?id=141618
 Patch6:         webkitgtk-2.7.90-180258.patch
@@ -208,7 +209,11 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
-* Wed Feb 18 2015 Tomas Popela <tpopela@redhat.com> - 2.7.90-1
+* Thu Feb 19 2015 Tomas Popela <tpopela@redhat.com> - 2.7.90-8
+- Fix crash in CLoop
+- Forgot to reset the release number so continuing with 8
+
+* Wed Feb 18 2015 Tomas Popela <tpopela@redhat.com> - 2.7.90-7
 - Update to 2.7.90
 - Add JIT and CLoop fixes
 
