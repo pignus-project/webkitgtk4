@@ -9,7 +9,7 @@
 
 Name:           webkitgtk4
 Version:        2.7.90
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -28,6 +28,9 @@ Patch5:         webkitgtk-2.7.90-180248.patch
 Patch6:         webkitgtk-2.7.90-180258.patch
 # http://trac.webkit.org/changeset/180264
 Patch7:         webkitgtk-2.7.90-bmalloc_static.patch
+# https://bugs.webkit.org/show_bug.cgi?id=141796
+# https://bugzilla.redhat.com/show_bug.cgi?id=1194260
+Patch8:         webkitgtk-2.7.90-cmake_regression.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -107,6 +110,7 @@ This package contains developer documentation for %{name}.
 %patch5 -p1 -b .180248
 %patch6 -p1 -b .180258
 %patch7 -p1 -b .bmalloc_static
+%patch8 -p1 -b .cmake_regression
 
 # Remove bundled libraries
 rm -rf Source/ThirdParty/leveldb/
@@ -209,6 +213,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Thu Feb 19 2015 Tomas Popela <tpopela@redhat.com> - 2.7.90-9
+- Fix the build with cmake 3.2.x
+
 * Thu Feb 19 2015 Tomas Popela <tpopela@redhat.com> - 2.7.90-8
 - Fix crash in CLoop
 - Forgot to reset the release number so continuing with 8
