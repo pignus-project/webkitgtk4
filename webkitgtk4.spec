@@ -122,7 +122,7 @@ rm -rf Source/ThirdParty/qunit/
 
 # Decrease debuginfo even on ix86 because of:
 # https://bugs.webkit.org/show_bug.cgi?id=140176
-%ifarch s390 %{arm} %{ix86}
+%ifarch s390 s390x %{arm} %{ix86}
 # Decrease debuginfo verbosity to reduce memory consumption even more
 %global optflags %(echo %{optflags} | sed 's/-g /-g1 /')
 %endif
@@ -212,6 +212,7 @@ make %{?_smp_mflags} -C %{_target_platform}
 * Thu Feb 19 2015 Tomas Popela <tpopela@redhat.com> - 2.7.90-8
 - Fix crash in CLoop
 - Forgot to reset the release number so continuing with 8
+- Decrease the debuginfo verbosity on s390x
 
 * Wed Feb 18 2015 Tomas Popela <tpopela@redhat.com> - 2.7.90-7
 - Update to 2.7.90
