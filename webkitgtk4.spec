@@ -9,7 +9,7 @@
 
 Name:           webkitgtk4
 Version:        2.7.90
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -17,6 +17,8 @@ URL:            http://www.webkitgtk.org/
 Source0:        http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
 
 Patch0:         webkitgtk-2.7.4-nspluginwrapper.patch
+# https://bugs.webkit.org/show_bug.cgi?id=142074
+Patch1:         webkitgtk-2.7.90-user-agent-branding.patch
 Patch2:         webkitgtk-2.5.90-cloop_fix.patch
 Patch3:         webkitgtk-2.5.2-commit_align.patch
 # https://bugs.webkit.org/show_bug.cgi?id=141717
@@ -101,6 +103,7 @@ This package contains developer documentation for %{name}.
 %prep
 %setup -q -n webkitgtk-%{version}
 %patch0 -p1 -b .nspluginwrapper
+%patch1 -p1 -b .user_agent
 # FIXME Temporarily disabled due to https://bugzilla.redhat.com/show_bug.cgi?id=1167004
 #%patch2 -p1 -b .cloop_fix
 %ifarch %{power64} aarch64 ppc
@@ -138,6 +141,10 @@ rm -rf Source/ThirdParty/qunit/
 
 %ifarch s390 s390x ppc %{power64} aarch64
 %global optflags %{optflags} -DENABLE_YARR_JIT=0
+%endif
+
+%if 0%{?fedora}
+%global optflags %{optflags} -DUSER_AGENT_GTK_DISTRIBUTOR_NAME=\\"Fedora\\"
 %endif
 
 # Disable ld.gold on s390 as it does not have it.
@@ -213,6 +220,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Thu Feb 26 2015 Michael Catanzaro <mcatanzaro@gnome.org> - 2.7.90-10
+- Add Fedora branding to the user agent
+
 * Thu Feb 19 2015 Tomas Popela <tpopela@redhat.com> - 2.7.90-9
 - Fix the build with cmake 3.2.x
 
