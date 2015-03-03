@@ -8,8 +8,8 @@
 %global _hardened_build 1
 
 Name:           webkitgtk4
-Version:        2.7.90
-Release:        10%{?dist}
+Version:        2.7.91
+Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -21,18 +21,6 @@ Patch0:         webkitgtk-2.7.4-nspluginwrapper.patch
 Patch1:         webkitgtk-2.7.90-user-agent-branding.patch
 Patch2:         webkitgtk-2.5.90-cloop_fix.patch
 Patch3:         webkitgtk-2.5.2-commit_align.patch
-# https://bugs.webkit.org/show_bug.cgi?id=141717
-Patch4:         webkitgtk-2.7.90-180234.patch
-# https://bugs.webkit.org/show_bug.cgi?id=141733
-# http://trac.webkit.org/changeset/180270
-Patch5:         webkitgtk-2.7.90-180248.patch
-# https://bugs.webkit.org/show_bug.cgi?id=141618
-Patch6:         webkitgtk-2.7.90-180258.patch
-# http://trac.webkit.org/changeset/180264
-Patch7:         webkitgtk-2.7.90-bmalloc_static.patch
-# https://bugs.webkit.org/show_bug.cgi?id=141796
-# https://bugzilla.redhat.com/show_bug.cgi?id=1194260
-Patch8:         webkitgtk-2.7.90-cmake_regression.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -109,11 +97,6 @@ This package contains developer documentation for %{name}.
 %ifarch %{power64} aarch64 ppc
 %patch3 -p1 -b .commit_align
 %endif
-%patch4 -p1 -b .180234
-%patch5 -p1 -b .180248
-%patch6 -p1 -b .180258
-%patch7 -p1 -b .bmalloc_static
-%patch8 -p1 -b .cmake_regression
 
 # Remove bundled libraries
 rm -rf Source/ThirdParty/leveldb/
@@ -220,6 +203,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Tue Mar 03 2015 Tomas Popela <tpopela@redhat.com> - 2.7.91-1
+- Update to 2.7.91
+
 * Thu Feb 26 2015 Michael Catanzaro <mcatanzaro@gnome.org> - 2.7.90-10
 - Add Fedora branding to the user agent
 
