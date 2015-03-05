@@ -151,7 +151,7 @@ pushd %{_target_platform}
   ..
 popd
 
-make %{?_smp_mflags} -C %{_target_platform}
+make -C %{_target_platform}
 
 %install
 %make_install -C %{_target_platform}
