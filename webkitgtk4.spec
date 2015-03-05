@@ -9,7 +9,7 @@
 
 Name:           webkitgtk4
 Version:        2.7.91
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -21,6 +21,8 @@ Patch0:         webkitgtk-2.7.4-nspluginwrapper.patch
 Patch1:         webkitgtk-2.7.90-user-agent-branding.patch
 Patch2:         webkitgtk-2.5.90-cloop_fix.patch
 Patch3:         webkitgtk-2.5.2-commit_align.patch
+# https://bugs.webkit.org/show_bug.cgi?id=142225
+Patch4:         webkitgtk-2.7.91-webview-webcontext-ref.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -97,6 +99,7 @@ This package contains developer documentation for %{name}.
 %ifarch %{power64} aarch64 ppc
 %patch3 -p1 -b .commit_align
 %endif
+%patch4 -p1 -b .webview_webcontext_ref
 
 # Remove bundled libraries
 rm -rf Source/ThirdParty/leveldb/
@@ -203,6 +206,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Wed Mar 04 2015 Michael Catanzaro <mcatanzaro@gnome.org> 2.7.91-2
+- Add patch to make gnome-online-accounts 3.15.91 not crash
+
 * Tue Mar 03 2015 Tomas Popela <tpopela@redhat.com> - 2.7.91-1
 - Update to 2.7.91
 
