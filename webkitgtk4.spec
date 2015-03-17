@@ -8,8 +8,8 @@
 %global _hardened_build 1
 
 Name:           webkitgtk4
-Version:        2.7.91
-Release:        3%{?dist}
+Version:        2.7.92
+Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -21,12 +21,8 @@ Patch0:         webkitgtk-2.7.4-nspluginwrapper.patch
 Patch1:         webkitgtk-2.7.90-user-agent-branding.patch
 Patch2:         webkitgtk-2.5.90-cloop_fix.patch
 Patch3:         webkitgtk-2.5.2-commit_align.patch
-# https://bugs.webkit.org/show_bug.cgi?id=142225
-Patch4:         webkitgtk-2.7.91-webview-webcontext-ref.patch
 # https://bugs.webkit.org/show_bug.cgi?id=142333
-Patch5:         webkitgtk-2.7.91-matrix-multiplication.patch
-# https://bugs.webkit.org/show_bug.cgi?id=142309
-Patch6:         webkitgtk-2.7.91-ax-child-changed.patch
+Patch4:         webkitgtk-2.7.91-matrix-multiplication.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -103,9 +99,7 @@ This package contains developer documentation for %{name}.
 %ifarch %{power64} aarch64 ppc
 %patch3 -p1 -b .commit_align
 %endif
-%patch4 -p1 -b .webview_webcontext_ref
-%patch5 -p1 -b .matrix_multiplication
-%patch6 -p1 -b .ax_child_changed
+%patch4 -p1 -b .matrix_multiplication
 
 # Remove bundled libraries
 rm -rf Source/ThirdParty/leveldb/
@@ -131,10 +125,6 @@ rm -rf Source/ThirdParty/qunit/
 %global optflags %{optflags} -Wl,-relax -latomic
 %endif
 
-%ifarch s390 s390x ppc %{power64} aarch64
-%global optflags %{optflags} -DENABLE_YARR_JIT=0
-%endif
-
 %if 0%{?fedora}
 %global optflags %{optflags} -DUSER_AGENT_GTK_DISTRIBUTOR_NAME=\'\\"Fedora\\"\'
 %endif
@@ -147,6 +137,7 @@ pushd %{_target_platform}
   -DPORT=GTK \
   -DCMAKE_BUILD_TYPE=Release \
   -DENABLE_GTKDOC=ON \
+  -DENABLE_MINIBROWSER=ON \
 %ifarch s390 aarch64
   -DUSE_LD_GOLD=OFF \
 %endif
@@ -157,7 +148,7 @@ pushd %{_target_platform}
   ..
 popd
 
-make -C %{_target_platform}
+make %{?_smp_mflags} -C %{_target_platform}
 
 %install
 %make_install -C %{_target_platform}
@@ -212,6 +203,11 @@ make -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Tue Mar 17 2015 Tomas Popela <tpopela@redhat.com> - 2.7.92-1
+- Update to 2.7.92
+- Re-enable parallel build
+- Compile and ship MiniBrowser
+
 * Mon Mar 16 2015 Michael Catanzaro <mcatanzaro@gnome.org> 2.7.91-3
 - Add a couple patches to fix more crashes
 
