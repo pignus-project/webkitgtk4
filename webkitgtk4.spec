@@ -186,6 +186,7 @@ make %{?_smp_mflags} -C %{_target_platform}
 
 %files devel
 %{_bindir}/jsc
+%{_bindir}/MiniBrowser
 %{_includedir}/webkitgtk-4.0/
 %{_libdir}/libjavascriptcoregtk-4.0.so
 %{_libdir}/libwebkit2gtk-4.0.so
