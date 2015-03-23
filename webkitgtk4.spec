@@ -8,7 +8,7 @@
 %global _hardened_build 1
 
 Name:           webkitgtk4
-Version:        2.7.92
+Version:        2.8.0
 Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
@@ -204,6 +204,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Mon Mar 23 2015 Tomas Popela <tpopela@redhat.com> - 2.8.0-1
+- Update to 2.8.0
+
 * Tue Mar 17 2015 Tomas Popela <tpopela@redhat.com> - 2.7.92-1
 - Update to 2.7.92
 - Re-enable parallel build
