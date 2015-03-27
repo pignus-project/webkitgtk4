@@ -9,7 +9,7 @@
 
 Name:           webkitgtk4
 Version:        2.8.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -20,9 +20,12 @@ Patch0:         webkitgtk-2.7.4-nspluginwrapper.patch
 # https://bugs.webkit.org/show_bug.cgi?id=142074
 Patch1:         webkitgtk-2.7.90-user-agent-branding.patch
 Patch2:         webkitgtk-2.5.90-cloop_fix.patch
-Patch3:         webkitgtk-2.5.2-commit_align.patch
 # https://bugs.webkit.org/show_bug.cgi?id=142333
-Patch4:         webkitgtk-2.7.91-matrix-multiplication.patch
+Patch3:         webkitgtk-2.7.91-matrix-multiplication.patch
+# https://bugzilla.redhat.com/show_bug.cgi?id=1206161
+Patch4:         webkitgtk-2.8.0-s390_fixes.patch
+# https://bugzilla.redhat.com/show_bug.cgi?id=1206577
+Patch5:         webkitgtk-2.8.0-gcc5_fix.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -96,10 +99,11 @@ This package contains developer documentation for %{name}.
 %patch1 -p1 -b .user_agent
 # FIXME Temporarily disabled due to https://bugzilla.redhat.com/show_bug.cgi?id=1167004
 #%patch2 -p1 -b .cloop_fix
-%ifarch %{power64} aarch64 ppc
-%patch3 -p1 -b .commit_align
+%patch3 -p1 -b .matrix_multiplication
+%ifarch s390
+%patch4 -p1 -b .s390_fixes
 %endif
-%patch4 -p1 -b .matrix_multiplication
+%patch5 -p1 -b .gcc5_fix
 
 # Remove bundled libraries
 rm -rf Source/ThirdParty/leveldb/
@@ -115,7 +119,7 @@ rm -rf Source/ThirdParty/qunit/
 
 # Decrease debuginfo even on ix86 because of:
 # https://bugs.webkit.org/show_bug.cgi?id=140176
-%ifarch s390 s390x %{arm} %{ix86}
+%ifarch s390 s390x %{arm} %{ix86} ppc %{power64}
 # Decrease debuginfo verbosity to reduce memory consumption even more
 %global optflags %(echo %{optflags} | sed 's/-g /-g1 /')
 %endif
@@ -204,6 +208,11 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Fri Mar 27 2015 Than Ngo <than@redhat.com> - 2.8.0-2
+- Fix build failures on s390
+- Fix build failures with gcc 5
+- Decrease the debuginfo verbosity on ppc and others
+
 * Mon Mar 23 2015 Tomas Popela <tpopela@redhat.com> - 2.8.0-1
 - Update to 2.8.0
 
