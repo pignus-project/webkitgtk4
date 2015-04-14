@@ -8,8 +8,8 @@
 %global _hardened_build 1
 
 Name:           webkitgtk4
-Version:        2.8.0
-Release:        4%{?dist}
+Version:        2.8.1
+Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -220,6 +220,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Tue Apr 14 2015 Tomas Popela <tpopela@redhat.com> - 2.8.1-1
+- Update to 2.8.1
+
 * Wed Apr 08 2015 Michael Catanzaro <mcatanzaro@igalia.com> - 2.8.0-4
 - Build with support for HTML5 desktop notifications
 
