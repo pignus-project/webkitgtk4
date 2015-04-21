@@ -9,7 +9,7 @@
 
 Name:           webkitgtk4
 Version:        2.8.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -22,12 +22,10 @@ Patch1:         webkitgtk-2.7.90-user-agent-branding.patch
 # CLoop fixes (applied just on secondary arches)
 Patch2:         webkitgtk-2.5.90-cloop_fix.patch
 Patch3:         webkitgtk-2.8.0-page_size_align.patch
-# https://bugs.webkit.org/show_bug.cgi?id=142333
-Patch4:         webkitgtk-2.7.91-matrix-multiplication.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=1206161
-Patch5:         webkitgtk-2.8.0-s390_fixes.patch
+Patch4:         webkitgtk-2.8.0-s390_fixes.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=1206577
-Patch6:         webkitgtk-2.8.0-gcc5_fix.patch
+Patch5:         webkitgtk-2.8.0-gcc5_fix.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -106,11 +104,10 @@ This package contains developer documentation for %{name}.
 %patch2 -p1 -b .cloop_fix
 %patch3 -p1 -b .page_size_align
 %endif
-%patch4 -p1 -b .matrix_multiplication
 %ifarch s390
-%patch5 -p1 -b .s390_fixes
+%patch4 -p1 -b .s390_fixes
 %endif
-%patch6 -p1 -b .gcc5_fix
+%patch5 -p1 -b .gcc5_fix
 
 # Remove bundled libraries
 rm -rf Source/ThirdParty/leveldb/
@@ -220,6 +217,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Tue Apr 21 2015 Michael Catanzaro <mcatanzaro@igalia.com> - 2.8.1-2
+- Reenable fast matrix multiplication on x86_64
+
 * Tue Apr 14 2015 Tomas Popela <tpopela@redhat.com> - 2.8.1-1
 - Update to 2.8.1
 
