@@ -8,8 +8,8 @@
 %global _hardened_build 1
 
 Name:           webkitgtk4
-Version:        2.8.1
-Release:        2%{?dist}
+Version:        2.9.1
+Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -156,7 +156,6 @@ pushd %{_target_platform}
 %endif
 %ifarch s390 s390x ppc %{power64} aarch64
   -DENABLE_JIT=OFF \
-  -DENABLE_LLINT_C_LOOP=ON \
 %endif
   ..
 popd
@@ -217,6 +216,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Thu May 07 2015 Tomas Popela <tpopela@redhat.com> - 2.9.1-1
+- Update to 2.9.1
+
 * Tue Apr 21 2015 Michael Catanzaro <mcatanzaro@igalia.com> - 2.8.1-2
 - Reenable fast matrix multiplication on x86_64
 
