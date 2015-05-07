@@ -99,12 +99,12 @@ This package contains developer documentation for %{name}.
 %setup -q -n webkitgtk-%{version}
 %patch0 -p1 -b .nspluginwrapper
 %patch1 -p1 -b .user_agent
-%ifarch s390 s390x %{arm} ppc %{power64}
+#%ifarch s390 s390x %{arm} ppc %{power64}
 # FIXME Temporarily disabled due to https://bugzilla.redhat.com/show_bug.cgi?id=1167004
 # Enabled just on secondary arches where we use CLoop
-%patch2 -p1 -b .cloop_fix
-%patch3 -p1 -b .page_size_align
-%endif
+#%patch2 -p1 -b .cloop_fix
+#%patch3 -p1 -b .page_size_align
+#%endif
 %ifarch s390
 %patch4 -p1 -b .s390_fixes
 %endif
