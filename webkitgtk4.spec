@@ -60,6 +60,7 @@ BuildRequires:  pcre-devel
 BuildRequires:  perl-Switch
 BuildRequires:  ruby
 BuildRequires:  sqlite-devel
+BuildRequires:  hyphen-devel
 %ifarch ppc
 BuildRequires:  libatomic
 %endif
@@ -218,6 +219,7 @@ make %{?_smp_mflags} -C %{_target_platform}
 %changelog
 * Thu May 07 2015 Tomas Popela <tpopela@redhat.com> - 2.9.1-1
 - Update to 2.9.1
+- Add hyphen-devel as BR
 
 * Tue Apr 21 2015 Michael Catanzaro <mcatanzaro@igalia.com> - 2.8.1-2
 - Reenable fast matrix multiplication on x86_64
