@@ -8,7 +8,7 @@
 %global _hardened_build 1
 
 Name:           webkitgtk4
-Version:        2.9.1
+Version:        2.9.2
 Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
@@ -26,8 +26,6 @@ Patch3:         webkitgtk-2.8.0-page_size_align.patch
 Patch4:         webkitgtk-2.8.0-s390_fixes.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=1206577
 Patch5:         webkitgtk-2.8.0-gcc5_fix.patch
-# https://bugs.webkit.org/show_bug.cgi?id=144746
-Patch6:         webkitgtk-2.9.1-development_build.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -111,7 +109,6 @@ This package contains developer documentation for %{name}.
 %patch4 -p1 -b .s390_fixes
 %endif
 %patch5 -p1 -b .gcc5_fix
-%patch6 -p1 -b .development_build
 
 # Remove bundled libraries
 rm -rf Source/ThirdParty/leveldb/
@@ -220,6 +217,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Wed May 27 2015 Tomas Popela <tpopela@redhat.com> - 2.9.2-1
+- Update to 2.9.2
+
 * Thu May 07 2015 Tomas Popela <tpopela@redhat.com> - 2.9.1-1
 - Update to 2.9.1
 - Add hyphen-devel as BR
