@@ -8,8 +8,8 @@
 %global _hardened_build 1
 
 Name:           webkitgtk4
-Version:        2.9.2
-Release:        2%{?dist}
+Version:        2.9.3
+Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -217,6 +217,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Tue Jun 23 2015 Tomas Popela <tpopela@redhat.com> - 2.9.3-1
+- Update to 2.9.3
+
 * Fri Jun 19 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.9.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
