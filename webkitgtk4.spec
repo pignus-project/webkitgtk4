@@ -9,7 +9,7 @@
 
 Name:           webkitgtk4
 Version:        2.9.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -55,6 +55,9 @@ BuildRequires:  libsoup-devel
 BuildRequires:  libwebp-devel
 BuildRequires:  libxslt-devel
 BuildRequires:  libXt-devel
+BuildRequires:  libwayland-client-devel
+BuildRequires:  libwayland-egl-devel
+BuildRequires:  libwayland-server-devel
 BuildRequires:  mesa-libGL-devel
 BuildRequires:  pcre-devel
 BuildRequires:  perl-Switch
@@ -152,6 +155,7 @@ pushd %{_target_platform}
   -DCMAKE_BUILD_TYPE=Release \
   -DENABLE_GTKDOC=ON \
   -DENABLE_MINIBROWSER=ON \
+  -DENABLE_WAYLAND_TARGET=ON \
 %ifarch s390 aarch64
   -DUSE_LD_GOLD=OFF \
 %endif
@@ -217,6 +221,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Wed Jul 01 2015 Michael Catanzaro <mcatanzaro@igalia.com> - 2.9.3-2
+- Enable Wayland support at long last. Hopefully fixes #1220811.
+
 * Tue Jun 23 2015 Tomas Popela <tpopela@redhat.com> - 2.9.3-1
 - Update to 2.9.3
 
