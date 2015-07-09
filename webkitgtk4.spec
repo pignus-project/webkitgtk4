@@ -9,7 +9,7 @@
 
 Name:           webkitgtk4
 Version:        2.9.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -26,6 +26,8 @@ Patch3:         webkitgtk-2.8.0-page_size_align.patch
 Patch4:         webkitgtk-2.8.0-s390_fixes.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=1206577
 Patch5:         webkitgtk-2.8.0-gcc5_fix.patch
+# https://bugs.webkit.org/show_bug.cgi?id=146793
+Patch6:         webkitgtk-2.9.3-memory-limit.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -112,6 +114,7 @@ This package contains developer documentation for %{name}.
 %patch4 -p1 -b .s390_fixes
 %endif
 %patch5 -p1 -b .gcc5_fix
+%patch6 -p1 -b .memory_limit
 
 # Remove bundled libraries
 rm -rf Source/ThirdParty/leveldb/
@@ -221,6 +224,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Thu Jul 09 2015 Michael Catanzaro <mcatanzaro@igalia.com> 2.9.3-3
+- Prevent runaway web processes from using unlimited memory.
+
 * Wed Jul 01 2015 Michael Catanzaro <mcatanzaro@igalia.com> - 2.9.3-2
 - Enable Wayland support at long last. Hopefully fixes #1220811.
 
