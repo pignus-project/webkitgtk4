@@ -1,0 +1,61 @@
+diff --git a/Source/WebKit2/Shared/unix/ChildProcessMain.cpp b/Source/WebKit2/Shared/unix/ChildProcessMain.cpp
+index 628be687ac16c1cdeff01403def118c7ab87e580..8d3a654ffdc289f52804b89cb97f0104828d7341 100644
+--- a/Source/WebKit2/Shared/unix/ChildProcessMain.cpp
++++ b/Source/WebKit2/Shared/unix/ChildProcessMain.cpp
+@@ -26,7 +26,10 @@
+ #include "config.h"
+ #include "ChildProcessMain.h"
+ 
++#include <errno.h>
+ #include <stdlib.h>
++#include <string.h>
++#include <sys/resource.h>
+ 
+ namespace WebKit {
+ 
+@@ -40,4 +43,25 @@ bool ChildProcessMainBase::parseCommandLine(int argc, char** argv)
+     return true;
+ }
+ 
++void ChildProcessMainBase::setProcessResourceLimits()
++{
++#ifdef _LARGEFILE64_SOURCE
++    // Prevent runaway web processes from allocating too much address space.
++    //
++    // It seems like it would be much better to use RLIMIT_DATA here, which should limit the
++    // combined size of the initialized data, uninitialized data, and heap segments. But
++    // RLIMIT_DATA does not apply to memory allocated with mmap(), so it is not really useful.
++    // For one, we use mmap() extensively in WTF::OSAllocator. For another, glibc's malloc() is
++    // implemented using mmap(), so RLIMIT_DATA is truely useless.
++    //
++    // The address space limit is currently set to 5 GB. In practice, this causes a runaway web
++    // process to cap out at about 1.4 GB of allocated memory.
++    static const auto addressSpaceLimitBytes = 5000000000l;
++    rlimit64 rlim = {addressSpaceLimitBytes, addressSpaceLimitBytes};
++    rlim.rlim_max = rlim.rlim_cur;
++    if (setrlimit64(RLIMIT_AS, &rlim))
++        WTFLogAlways("Failed to set process address space limit: %s", strerror(errno));
++#endif
++}
++
+ } // namespace WebKit
+diff --git a/Source/WebKit2/Shared/unix/ChildProcessMain.h b/Source/WebKit2/Shared/unix/ChildProcessMain.h
+index 7b9029420d98fb6cf791aeff9307b2a85d1ac138..b3c90af3175418cad02fa9f8697d48bfb2a04011 100644
+--- a/Source/WebKit2/Shared/unix/ChildProcessMain.h
++++ b/Source/WebKit2/Shared/unix/ChildProcessMain.h
+@@ -37,6 +37,7 @@ public:
+     virtual bool platformInitialize() { return true; }
+     virtual bool parseCommandLine(int argc, char** argv);
+     virtual void platformFinalize() { }
++    virtual void setProcessResourceLimits();
+ 
+     const ChildProcessInitializationParameters& initializationParameters() const { return m_parameters; }
+ 
+@@ -49,6 +50,8 @@ int ChildProcessMain(int argc, char** argv)
+ {
+     ChildProcessMainType childMain;
+ 
++    childMain.setProcessResourceLimits();
++
+     if (!childMain.platformInitialize())
+         return EXIT_FAILURE;
