@@ -8,15 +8,15 @@
 %global _hardened_build 1
 
 Name:           webkitgtk4
-Version:        2.9.3
-Release:        3%{?dist}
+Version:        2.9.4
+Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
 URL:            http://www.webkitgtk.org/
 Source0:        http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
 
-Patch0:         webkitgtk-2.7.4-nspluginwrapper.patch
+Patch0:         webkitgtk-2.9.4-nspluginwrapper.patch
 # https://bugs.webkit.org/show_bug.cgi?id=142074
 Patch1:         webkitgtk-2.7.90-user-agent-branding.patch
 # CLoop fixes (applied just on secondary arches)
@@ -224,6 +224,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Wed Jul 22 2015 Tomas Popela <tpopela@redhat.com> - 2.9.4-1
+- Update to 2.9.4
+
 * Thu Jul 09 2015 Michael Catanzaro <mcatanzaro@igalia.com> 2.9.3-3
 - Prevent runaway web processes from using unlimited memory.
 
