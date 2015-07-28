@@ -9,7 +9,7 @@
 
 Name:           webkitgtk4
 Version:        2.9.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -224,10 +224,13 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Tue Jul 28 2015 Michael Catanzaro <mcatanzaro@igalia.com> - 2.9.4-2
+- Exempt the plugin process from the address space limit.
+
 * Wed Jul 22 2015 Tomas Popela <tpopela@redhat.com> - 2.9.4-1
 - Update to 2.9.4
 
-* Thu Jul 09 2015 Michael Catanzaro <mcatanzaro@igalia.com> 2.9.3-3
+* Thu Jul 09 2015 Michael Catanzaro <mcatanzaro@igalia.com> - 2.9.3-3
 - Prevent runaway web processes from using unlimited memory.
 
 * Wed Jul 01 2015 Michael Catanzaro <mcatanzaro@igalia.com> - 2.9.3-2
