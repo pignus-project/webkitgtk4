@@ -9,7 +9,7 @@
 
 Name:           webkitgtk4
 Version:        2.9.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
