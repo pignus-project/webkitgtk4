@@ -28,6 +28,8 @@ Patch4:         webkitgtk-2.8.0-s390_fixes.patch
 Patch5:         webkitgtk-2.8.0-gcc5_fix.patch
 # https://bugs.webkit.org/show_bug.cgi?id=146793
 Patch6:         webkitgtk-2.9.3-memory-limit.patch
+# https://bugs.webkit.org/show_bug.cgi?id=135972
+Patch7:         webkitgtk-2.9.4-youtube.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -115,6 +117,7 @@ This package contains developer documentation for %{name}.
 %endif
 %patch5 -p1 -b .gcc5_fix
 %patch6 -p1 -b .memory_limit
+%patch7 -p1 -b .youtube
 
 # Remove bundled libraries
 rm -rf Source/ThirdParty/leveldb/
@@ -224,6 +227,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Sat Aug 01 2015 Michael Catanzaro <mcatanzaro@igalia.com> - 2.9.4-3
+- Make YouTube work.
+
 * Tue Jul 28 2015 Michael Catanzaro <mcatanzaro@igalia.com> - 2.9.4-2
 - Exempt the plugin process from the address space limit.
 
