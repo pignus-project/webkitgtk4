@@ -8,7 +8,7 @@
 %global _hardened_build 1
 
 Name:           webkitgtk4
-Version:        2.9.5
+Version:        2.9.90
 Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
@@ -227,6 +227,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Wed Aug 19 2015 Kalev Lember <klember@redhat.com> - 2.9.90-1
+- Update to 2.9.90
+
 * Mon Aug 03 2015 Tomas Popela <tpopela@redhat.com> - 2.9.5-1
 - Update to 2.9.5
 
