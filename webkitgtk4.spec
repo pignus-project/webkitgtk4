@@ -9,7 +9,7 @@
 
 Name:           webkitgtk4
 Version:        2.9.90
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -26,10 +26,10 @@ Patch3:         webkitgtk-2.8.0-page_size_align.patch
 Patch4:         webkitgtk-2.8.0-s390_fixes.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=1206577
 Patch5:         webkitgtk-2.8.0-gcc5_fix.patch
-# https://bugs.webkit.org/show_bug.cgi?id=146793
-Patch6:         webkitgtk-2.9.3-memory-limit.patch
 # https://bugs.webkit.org/show_bug.cgi?id=135972
-Patch7:         webkitgtk-2.9.4-youtube.patch
+Patch6:         webkitgtk-2.9.4-youtube.patch
+# https://bugs.webkit.org/show_bug.cgi?id=147826#c7
+Patch7:         webkitgtk-2.9.90-cairo-performance-regression.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -116,8 +116,8 @@ This package contains developer documentation for %{name}.
 %patch4 -p1 -b .s390_fixes
 %endif
 %patch5 -p1 -b .gcc5_fix
-%patch6 -p1 -b .memory_limit
-%patch7 -p1 -b .youtube
+%patch6 -p1 -b .youtube
+%patch7 -p1 -b .performance_regression
 
 # Remove bundled libraries
 rm -rf Source/ThirdParty/leveldb/
@@ -161,7 +161,6 @@ pushd %{_target_platform}
   -DCMAKE_BUILD_TYPE=Release \
   -DENABLE_GTKDOC=ON \
   -DENABLE_MINIBROWSER=ON \
-  -DENABLE_WAYLAND_TARGET=ON \
 %ifarch s390 aarch64
   -DUSE_LD_GOLD=OFF \
 %endif
@@ -227,6 +226,13 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Mon Aug 24 2015 Michael Catanzaro <mcatanzaro@igalia.com> - 2.9.90-2
+- Remove the address space limit patch: it was causing too many problems.
+- (Warning! This means Red Hat Bugzilla can hang your computer again.)
+- Improve the YouTube patch to avoid spamming the journal with rpm output.
+- Add patch from upstream to workaround severe a performance regression.
+- No need to explicitly enable Wayland support anymore; it's now default.
+
 * Wed Aug 19 2015 Kalev Lember <klember@redhat.com> - 2.9.90-1
 - Update to 2.9.90
 
