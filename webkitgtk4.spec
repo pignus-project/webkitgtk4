@@ -8,8 +8,8 @@
 %global _hardened_build 1
 
 Name:           webkitgtk4
-Version:        2.9.90
-Release:        2%{?dist}
+Version:        2.9.91
+Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -28,8 +28,6 @@ Patch4:         webkitgtk-2.8.0-s390_fixes.patch
 Patch5:         webkitgtk-2.8.0-gcc5_fix.patch
 # https://bugs.webkit.org/show_bug.cgi?id=135972
 Patch6:         webkitgtk-2.9.4-youtube.patch
-# https://bugs.webkit.org/show_bug.cgi?id=147826#c7
-Patch7:         webkitgtk-2.9.90-cairo-performance-regression.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -117,7 +115,6 @@ This package contains developer documentation for %{name}.
 %endif
 %patch5 -p1 -b .gcc5_fix
 %patch6 -p1 -b .youtube
-%patch7 -p1 -b .performance_regression
 
 # Remove bundled libraries
 rm -rf Source/ThirdParty/leveldb/
@@ -226,6 +223,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Wed Aug 26 2015 Kalev Lember <klember@redhat.com> - 2.9.91-1
+- Update to 2.9.91
+
 * Mon Aug 24 2015 Michael Catanzaro <mcatanzaro@igalia.com> - 2.9.90-2
 - Remove the address space limit patch: it was causing too many problems.
 - (Warning! This means Red Hat Bugzilla can hang your computer again.)
