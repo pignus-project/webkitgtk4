@@ -8,7 +8,7 @@
 %global _hardened_build 1
 
 Name:           webkitgtk4
-Version:        2.9.91
+Version:        2.9.92
 Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
@@ -24,8 +24,6 @@ Patch2:         webkitgtk-2.5.90-cloop_fix.patch
 Patch3:         webkitgtk-2.8.0-page_size_align.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=1206161
 Patch4:         webkitgtk-2.8.0-s390_fixes.patch
-# https://bugzilla.redhat.com/show_bug.cgi?id=1206577
-Patch5:         webkitgtk-2.8.0-gcc5_fix.patch
 # https://bugs.webkit.org/show_bug.cgi?id=135972
 Patch6:         webkitgtk-2.9.4-youtube.patch
 
@@ -113,7 +111,6 @@ This package contains developer documentation for %{name}.
 %ifarch s390
 %patch4 -p1 -b .s390_fixes
 %endif
-%patch5 -p1 -b .gcc5_fix
 %patch6 -p1 -b .youtube
 
 # Remove bundled libraries
@@ -223,6 +220,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Wed Sep 16 2015 Tomas Popela <tpopela@redhat.com> - 2.9.92-1
+- Update to 2.9.92
+
 * Wed Aug 26 2015 Kalev Lember <klember@redhat.com> - 2.9.91-1
 - Update to 2.9.91
 
