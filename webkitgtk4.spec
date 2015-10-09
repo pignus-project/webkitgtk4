@@ -9,7 +9,7 @@
 
 Name:           webkitgtk4
 Version:        2.10.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -72,6 +72,10 @@ Requires:       geoclue2
 # Obsolete libwebkit2gtk from the webkitgtk3 package
 Obsoletes:      libwebkit2gtk < 2.5.0
 Provides:       libwebkit2gtk = %{version}-%{release}
+
+# We're supposed to specify a version here, but this is pointless because ANGLE
+# doesn't do normal releases. WebKit uses git snapshots.
+Provides:	bundled(angle)
 
 # Filter out provides for private libraries
 %global __provides_exclude_from ^%{_libdir}/webkit2gtk-4\\.0/.*\\.so$
@@ -220,6 +224,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Fri Oct 09 2015 Michael Catanzaro <mcatanzaro@igalia.com> - 2.10.0-2
+- Add provides bundled(angle) since it's finally safe to do so.
+
 * Mon Sep 21 2015 Kalev Lember <klember@redhat.com> - 2.10.0-1
 - Update to 2.10.0
 
