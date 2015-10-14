@@ -8,8 +8,8 @@
 %global _hardened_build 1
 
 Name:           webkitgtk4
-Version:        2.10.0
-Release:        2%{?dist}
+Version:        2.10.1
+Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -224,6 +224,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Wed Oct 14 2015 Tomas Popela <tpopela@redhat.com> - 2.10.1-1
+- Update to 2.10.1
+
 * Fri Oct 09 2015 Michael Catanzaro <mcatanzaro@igalia.com> - 2.10.0-2
 - Add provides bundled(angle) since it's finally safe to do so.
 
