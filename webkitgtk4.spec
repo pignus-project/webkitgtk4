@@ -26,6 +26,7 @@ Patch3:         webkitgtk-2.8.0-page_size_align.patch
 Patch4:         webkitgtk-2.8.0-s390_fixes.patch
 # https://bugs.webkit.org/show_bug.cgi?id=135972
 Patch6:         webkitgtk-2.9.4-youtube.patch
+Patch7:         webkitgtk-2.10.1-cmake_fix.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -116,6 +117,7 @@ This package contains developer documentation for %{name}.
 %patch4 -p1 -b .s390_fixes
 %endif
 %patch6 -p1 -b .youtube
+%patch7 -p1 -b .cmake_fix
 
 # Remove bundled libraries
 rm -rf Source/ThirdParty/leveldb/

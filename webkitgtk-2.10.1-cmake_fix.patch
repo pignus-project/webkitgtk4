@@ -1,0 +1,11 @@
+diff -up webkitgtk-2.10.1/Source/cmake/FindOpenGL.cmake.cmake_fix webkitgtk-2.10.1/Source/cmake/FindOpenGL.cmake
+--- webkitgtk-2.10.1/Source/cmake/FindOpenGL.cmake.cmake_fix	2015-10-14 10:17:48.757312333 +0200
++++ webkitgtk-2.10.1/Source/cmake/FindOpenGL.cmake	2015-10-14 10:25:34.681328240 +0200
+@@ -59,6 +59,7 @@ if (OPENGL_FOUND)
+     include(CMakePushCheckState)
+     CMAKE_PUSH_CHECK_STATE()
+     set(CMAKE_REQUIRED_INCLUDES ${CMAKE_REQUIRED_INCLUDES} ${OPENGL_INCLUDE_DIRS})
++    include(CheckIncludeFiles)
+     check_include_files("GL/glx.h" GLX_FOUND)
+     CMAKE_POP_CHECK_STATE()
+ endif ()
