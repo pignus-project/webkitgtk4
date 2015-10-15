@@ -8,8 +8,8 @@
 %global _hardened_build 1
 
 Name:           webkitgtk4
-Version:        2.10.1
-Release:        2%{?dist}
+Version:        2.10.2
+Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -26,7 +26,6 @@ Patch3:         webkitgtk-2.8.0-page_size_align.patch
 Patch4:         webkitgtk-2.8.0-s390_fixes.patch
 # https://bugs.webkit.org/show_bug.cgi?id=135972
 Patch6:         webkitgtk-2.9.4-youtube.patch
-Patch7:         webkitgtk-2.10.1-cmake_fix.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -117,7 +116,6 @@ This package contains developer documentation for %{name}.
 %patch4 -p1 -b .s390_fixes
 %endif
 %patch6 -p1 -b .youtube
-%patch7 -p1 -b .cmake_fix
 
 # Remove bundled libraries
 rm -rf Source/ThirdParty/leveldb/
@@ -226,6 +224,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Thu Oct 15 2015 Tomas Popela <tpopela@redhat.com> - 2.10.2-1
+- Update to 2.10.2
+
 * Thu Oct 15 2015 Kalev Lember <klember@redhat.com> - 2.10.1-2
 - Rebuilt
 
