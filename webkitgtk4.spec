@@ -8,8 +8,8 @@
 %global _hardened_build 1
 
 Name:           webkitgtk4
-Version:        2.10.3
-Release:        2%{?dist}
+Version:        2.11.1
+Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -224,6 +224,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Tue Nov 03 2015 Tomas Popela <tpopela@redhat.com> - 2.11.1-1
+- Update to 2.11.1
+
 * Wed Oct 28 2015 David Tardon <dtardon@redhat.com> - 2.10.3-2
 - rebuild for ICU 56.1
 
