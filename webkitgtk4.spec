@@ -67,6 +67,14 @@ BuildRequires:  hyphen-devel
 %ifarch ppc
 BuildRequires:  libatomic
 %endif
+%ifarch x86_64
+# Enable FTL
+BuildRequires:  libedit-devel
+BuildRequires:  llvm-devel
+BuildRequires:  llvm-static
+Requires:       llvm
+%endif
+
 Requires:       geoclue2
 
 # Obsolete libwebkit2gtk from the webkitgtk3 package
@@ -226,6 +234,7 @@ make %{?_smp_mflags} -C %{_target_platform}
 %changelog
 * Mon Nov 23 2015 Tomas Popela <tpopela@redhat.com> - 2.11.2-1
 - Update to 2.11.2
+- Enable FTL on x86_64
 
 * Tue Nov 03 2015 Tomas Popela <tpopela@redhat.com> - 2.11.1-1
 - Update to 2.11.1
