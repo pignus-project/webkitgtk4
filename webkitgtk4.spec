@@ -16,7 +16,7 @@ License:        LGPLv2
 URL:            http://www.webkitgtk.org/
 Source0:        http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
 
-Patch0:         webkitgtk-2.9.4-nspluginwrapper.patch
+Patch0:         webkitgtk-2.11.2-nspluginwrapper.patch
 # https://bugs.webkit.org/show_bug.cgi?id=142074
 Patch1:         webkitgtk-2.7.90-user-agent-branding.patch
 # CLoop fixes (applied just on secondary arches)
