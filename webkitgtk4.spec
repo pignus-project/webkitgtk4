@@ -205,7 +205,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %files -f WebKit2GTK-4.0.lang
 %license _license_files/*
 %{_libdir}/libjavascriptcoregtk-4.0.so.*
+%ifarch x86_64
 %{_libdir}/javascriptcoregtk-4.0/libllvmForJSC.so
+%endif
 %{_libdir}/libwebkit2gtk-4.0.so.*
 %{_libdir}/girepository-1.0/JavaScriptCore-4.0.typelib
 %{_libdir}/girepository-1.0/WebKit2-4.0.typelib
