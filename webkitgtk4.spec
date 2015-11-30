@@ -9,7 +9,7 @@
 
 Name:           webkitgtk4
 Version:        2.11.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -85,6 +85,9 @@ Provides:       libwebkit2gtk = %{version}-%{release}
 # doesn't do normal releases. WebKit uses git snapshots.
 Provides:	bundled(angle)
 
+# Require the jsc subpackage
+Requires:       %{name}-jsc%{?_isa} = %{version}-%{release}
+
 # Filter out provides for private libraries
 %global __provides_exclude_from ^%{_libdir}/webkit2gtk-4\\.0/.*\\.so$
 
@@ -97,6 +100,7 @@ This package contains WebKitGTK+ for GTK+ 3.
 %package        devel
 Summary:        Development files for %{name}
 Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       %{name}-jsc-devel%{?_isa} = %{version}-%{release}
 
 %description    devel
 The %{name}-devel package contains libraries, build data, and header
@@ -109,6 +113,20 @@ Requires:       %{name} = %{version}-%{release}
 
 %description    doc
 This package contains developer documentation for %{name}.
+
+%package        jsc
+Summary:        JavaScript engine from %{name}
+
+%description    jsc
+This package contains JavaScript engine from %{name}.
+
+%package        jsc-devel
+Summary:        Development files for JavaScript engine from %{name}
+Requires:       %{name}-jsc%{?_isa} = %{version}-%{release}
+
+%description    jsc-devel
+The %{name}-jsc-devel package contains libraries, build data, and header
+files for developing applications that use JavaScript engine from %{name}.
 
 %prep
 %setup -q -n webkitgtk-%{version}
@@ -203,30 +221,39 @@ make %{?_smp_mflags} -C %{_target_platform}
 %postun -p /sbin/ldconfig
 
 %files -f WebKit2GTK-4.0.lang
-%license _license_files/*
-%{_libdir}/libjavascriptcoregtk-4.0.so.*
-%ifarch x86_64
-%{_libdir}/javascriptcoregtk-4.0/libllvmForJSC.so
-%endif
+%license _license_files/*ThirdParty*
+%license _license_files/*WebCore*
+%license _license_files/*WebInspectorUI*
+%license _license_files/*WTF*
 %{_libdir}/libwebkit2gtk-4.0.so.*
-%{_libdir}/girepository-1.0/JavaScriptCore-4.0.typelib
 %{_libdir}/girepository-1.0/WebKit2-4.0.typelib
 %{_libdir}/girepository-1.0/WebKit2WebExtension-4.0.typelib
 %{_libdir}/webkit2gtk-4.0/
 %{_libexecdir}/webkit2gtk-4.0/
 
 %files devel
-%{_bindir}/jsc
 %{_bindir}/MiniBrowser
 %{_includedir}/webkitgtk-4.0/
-%{_libdir}/libjavascriptcoregtk-4.0.so
 %{_libdir}/libwebkit2gtk-4.0.so
-%{_libdir}/pkgconfig/javascriptcoregtk-4.0.pc
 %{_libdir}/pkgconfig/webkit2gtk-4.0.pc
 %{_libdir}/pkgconfig/webkit2gtk-web-extension-4.0.pc
-%{_datadir}/gir-1.0/JavaScriptCore-4.0.gir
 %{_datadir}/gir-1.0/WebKit2-4.0.gir
 %{_datadir}/gir-1.0/WebKit2WebExtension-4.0.gir
+
+%files jsc
+%license _license_files/*JavaScriptCore*
+%{_libdir}/libjavascriptcoregtk-4.0.so.*
+%ifarch x86_64
+%{_libdir}/javascriptcoregtk-4.0/libllvmForJSC.so
+%endif
+%{_libdir}/girepository-1.0/JavaScriptCore-4.0.typelib
+
+%files jsc-devel
+%{_bindir}/jsc
+%{_libdir}/libjavascriptcoregtk-4.0.so
+%{_libdir}/pkgconfig/javascriptcoregtk-4.0.pc
+%{_libdir}/girepository-1.0/JavaScriptCore-4.0.typelib
+%{_datadir}/gir-1.0/JavaScriptCore-4.0.gir
 
 %files doc
 %dir %{_datadir}/gtk-doc
@@ -235,6 +262,10 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Mon Nov 30 2015 Tomas Popela <tpopela@redhat.com> - 2.11.2-2
+- Introduce the jsc and jsc-devel subpackages with JavaScriptCore packaged
+- Resolves: rhbz#1176677
+
 * Mon Nov 23 2015 Tomas Popela <tpopela@redhat.com> - 2.11.2-1
 - Update to 2.11.2
 - Enable FTL on x86_64
