@@ -9,23 +9,22 @@
 
 Name:           webkitgtk4
 Version:        2.11.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
 URL:            http://www.webkitgtk.org/
 Source0:        http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
 
-Patch0:         webkitgtk-2.11.2-nspluginwrapper.patch
 # https://bugs.webkit.org/show_bug.cgi?id=142074
-Patch1:         webkitgtk-2.7.90-user-agent-branding.patch
+Patch0:         webkitgtk-2.7.90-user-agent-branding.patch
 # CLoop fixes (applied just on secondary arches)
-Patch2:         webkitgtk-2.5.90-cloop_fix.patch
-Patch3:         webkitgtk-2.8.0-page_size_align.patch
+Patch1:         webkitgtk-2.5.90-cloop_fix.patch
+Patch2:         webkitgtk-2.8.0-page_size_align.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=1206161
-Patch4:         webkitgtk-2.8.0-s390_fixes.patch
+Patch3:         webkitgtk-2.8.0-s390_fixes.patch
 # https://bugs.webkit.org/show_bug.cgi?id=135972
-Patch6:         webkitgtk-2.9.4-youtube.patch
+Patch5:         webkitgtk-2.9.4-youtube.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -130,18 +129,17 @@ files for developing applications that use JavaScript engine from %{name}.
 
 %prep
 %setup -q -n webkitgtk-%{version}
-%patch0 -p1 -b .nspluginwrapper
-%patch1 -p1 -b .user_agent
+%patch0 -p1 -b .user_agent
 #%ifarch s390 s390x %{arm} ppc %{power64}
 # FIXME Temporarily disabled due to https://bugzilla.redhat.com/show_bug.cgi?id=1167004
 # Enabled just on secondary arches where we use CLoop
-#%patch2 -p1 -b .cloop_fix
-#%patch3 -p1 -b .page_size_align
+#%patch1 -p1 -b .cloop_fix
+#%patch2 -p1 -b .page_size_align
 #%endif
 %ifarch s390
-%patch4 -p1 -b .s390_fixes
+%patch3 -p1 -b .s390_fixes
 %endif
-%patch6 -p1 -b .youtube
+%patch5 -p1 -b .youtube
 
 # Remove bundled libraries
 rm -rf Source/ThirdParty/leveldb/
@@ -262,6 +260,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Mon Dec 07 2015 Tomas Popela <tpopela@redhat.com> - 2.11.2-3
+- rhbz#1289053 - Retire nspluginwrapper and remove from Fedora 24
+
 * Mon Nov 30 2015 Tomas Popela <tpopela@redhat.com> - 2.11.2-2
 - Introduce the jsc and jsc-devel subpackages with JavaScriptCore packaged
 - Resolves: rhbz#1176677
