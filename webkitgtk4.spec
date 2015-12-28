@@ -9,7 +9,7 @@
 
 Name:           webkitgtk4
 Version:        2.11.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -260,6 +260,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Mon Dec 28 2015 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 2.11.2-4
+- Rebuilt for libwebp soname bump
+
 * Mon Dec 07 2015 Tomas Popela <tpopela@redhat.com> - 2.11.2-3
 - rhbz#1289053 - Retire nspluginwrapper and remove from Fedora 24
 
