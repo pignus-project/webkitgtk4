@@ -5,11 +5,9 @@
         mkdir -p _license_files ; \
         cp -p %1 _license_files/$(echo '%1' | sed -e 's!/!.!g')
 
-%global _hardened_build 1
-
 Name:           webkitgtk4
 Version:        2.11.2
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -18,13 +16,8 @@ Source0:        http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
 
 # https://bugs.webkit.org/show_bug.cgi?id=142074
 Patch0:         webkitgtk-2.7.90-user-agent-branding.patch
-# CLoop fixes (applied just on secondary arches)
-Patch1:         webkitgtk-2.5.90-cloop_fix.patch
-Patch2:         webkitgtk-2.8.0-page_size_align.patch
-# https://bugzilla.redhat.com/show_bug.cgi?id=1206161
-Patch3:         webkitgtk-2.8.0-s390_fixes.patch
 # https://bugs.webkit.org/show_bug.cgi?id=135972
-Patch5:         webkitgtk-2.9.4-youtube.patch
+Patch1:         webkitgtk-2.9.4-youtube.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -130,19 +123,9 @@ files for developing applications that use JavaScript engine from %{name}.
 %prep
 %setup -q -n webkitgtk-%{version}
 %patch0 -p1 -b .user_agent
-#%ifarch s390 s390x %{arm} ppc %{power64} %{mips}
-# FIXME Temporarily disabled due to https://bugzilla.redhat.com/show_bug.cgi?id=1167004
-# Enabled just on secondary arches where we use CLoop
-#%patch1 -p1 -b .cloop_fix
-#%patch2 -p1 -b .page_size_align
-#%endif
-%ifarch s390
-%patch3 -p1 -b .s390_fixes
-%endif
-%patch5 -p1 -b .youtube
+%patch1 -p1 -b .youtube
 
 # Remove bundled libraries
-rm -rf Source/ThirdParty/leveldb/
 rm -rf Source/ThirdParty/gtest/
 rm -rf Source/ThirdParty/qunit/
 
@@ -165,11 +148,6 @@ rm -rf Source/ThirdParty/qunit/
 %global optflags %{optflags} -Wl,-relax -latomic
 %endif
 
-%ifarch s390 s390x %{arm} ppc %{power64} %{mips}
-# Turn off bmalloc on secondary arches (as it is not ready for them)
-%global optflags %{optflags} -DUSE_BMALLOC=0
-%endif
-
 %if 0%{?fedora}
 %global optflags %{optflags} -DUSER_AGENT_GTK_DISTRIBUTOR_NAME=\'\\"Fedora\\"\'
 %endif
@@ -188,6 +166,9 @@ pushd %{_target_platform}
 %endif
 %ifarch s390 s390x ppc %{power64} aarch64 %{mips}
   -DENABLE_JIT=OFF \
+%endif
+%ifarch s390 s390x %{arm} ppc %{power64} %{mips}
+  -DUSE_SYSTEM_MALLOC=ON
 %endif
   ..
 popd
@@ -260,6 +241,16 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Wed Dec 30 2015 Michael Catanzaro <mcatanzaro@igalia.com> - 2.11.2-6
+- Remove webkitgtk-2.5.90-cloop_fix.patch and
+  webkitgtk-2.8.0-page_size_align.patch. These have been broken for ages.
+- Remove webkitgtk-2.8.0-s390_fixes.patch since this is a patch for bmalloc, but
+  we disable bmalloc on s390.
+- Updated webkitgtk-2.11.2-youtube.patch by Mario, now slightly less awful.
+- Don't request hardened build, it's the default.
+- Use public USE_SYSTEM_MALLOC option instead of unsupported DISABLE_BMALLOC.
+- lldb is not bundled anymore.
+
 * Wed Dec 30 2015 Michal Toman <mtoman@fedoraproject.org> - 2.11.2-5
 - Add support for MIPS
 
