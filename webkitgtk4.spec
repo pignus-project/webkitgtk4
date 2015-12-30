@@ -246,7 +246,6 @@ make %{?_smp_mflags} -C %{_target_platform}
   webkitgtk-2.8.0-page_size_align.patch. These have been broken for ages.
 - Remove webkitgtk-2.8.0-s390_fixes.patch since this is a patch for bmalloc, but
   we disable bmalloc on s390.
-- Updated webkitgtk-2.11.2-youtube.patch by Mario, now slightly less awful.
 - Don't request hardened build, it's the default.
 - Use public USE_SYSTEM_MALLOC option instead of unsupported DISABLE_BMALLOC.
 - lldb is not bundled anymore.
