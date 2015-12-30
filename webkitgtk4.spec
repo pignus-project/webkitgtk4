@@ -247,7 +247,7 @@ make %{?_smp_mflags} -C %{_target_platform}
 - Remove webkitgtk-2.8.0-s390_fixes.patch since this is a patch for bmalloc, but
   we disable bmalloc on s390.
 - Don't request hardened build, it's the default.
-- Use public USE_SYSTEM_MALLOC option instead of unsupported DISABLE_BMALLOC.
+- Use public USE_SYSTEM_MALLOC option instead of unsupported USE_BMALLOC.
 - lldb is not bundled anymore.
 
 * Wed Dec 30 2015 Michal Toman <mtoman@fedoraproject.org> - 2.11.2-5
