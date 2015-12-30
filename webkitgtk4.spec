@@ -9,7 +9,7 @@
 
 Name:           webkitgtk4
 Version:        2.11.2
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -130,7 +130,7 @@ files for developing applications that use JavaScript engine from %{name}.
 %prep
 %setup -q -n webkitgtk-%{version}
 %patch0 -p1 -b .user_agent
-#%ifarch s390 s390x %{arm} ppc %{power64}
+#%ifarch s390 s390x %{arm} ppc %{power64} %{mips}
 # FIXME Temporarily disabled due to https://bugzilla.redhat.com/show_bug.cgi?id=1167004
 # Enabled just on secondary arches where we use CLoop
 #%patch1 -p1 -b .cloop_fix
@@ -155,7 +155,7 @@ rm -rf Source/ThirdParty/qunit/
 
 # Decrease debuginfo even on ix86 because of:
 # https://bugs.webkit.org/show_bug.cgi?id=140176
-%ifarch s390 s390x %{arm} %{ix86} ppc %{power64}
+%ifarch s390 s390x %{arm} %{ix86} ppc %{power64} %{mips}
 # Decrease debuginfo verbosity to reduce memory consumption even more
 %global optflags %(echo %{optflags} | sed 's/-g /-g1 /')
 %endif
@@ -165,7 +165,7 @@ rm -rf Source/ThirdParty/qunit/
 %global optflags %{optflags} -Wl,-relax -latomic
 %endif
 
-%ifarch s390 s390x %{arm} ppc %{power64}
+%ifarch s390 s390x %{arm} ppc %{power64} %{mips}
 # Turn off bmalloc on secondary arches (as it is not ready for them)
 %global optflags %{optflags} -DUSE_BMALLOC=0
 %endif
@@ -186,7 +186,7 @@ pushd %{_target_platform}
 %ifarch s390 aarch64
   -DUSE_LD_GOLD=OFF \
 %endif
-%ifarch s390 s390x ppc %{power64} aarch64
+%ifarch s390 s390x ppc %{power64} aarch64 %{mips}
   -DENABLE_JIT=OFF \
 %endif
   ..
@@ -260,6 +260,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Wed Dec 30 2015 Michal Toman <mtoman@fedoraproject.org> - 2.11.2-5
+- Add support for MIPS
+
 * Mon Dec 28 2015 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 2.11.2-4
 - Rebuilt for libwebp soname bump
 
