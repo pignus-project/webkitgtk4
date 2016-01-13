@@ -7,7 +7,7 @@
 
 Name:           webkitgtk4
 Version:        2.11.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -18,6 +18,8 @@ Source0:        http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
 Patch0:         webkitgtk-2.7.90-user-agent-branding.patch
 # https://bugs.webkit.org/show_bug.cgi?id=135972
 Patch1:         webkitgtk-2.9.4-youtube.patch
+# https://bugs.webkit.org/show_bug.cgi?id=151559
+Patch2:         webkitgtk-2.11.3-llvm-shared-libs.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -63,7 +65,6 @@ BuildRequires:  libatomic
 # Enable FTL
 BuildRequires:  libedit-devel
 BuildRequires:  llvm-devel
-BuildRequires:  llvm-static
 Requires:       llvm
 %endif
 
@@ -121,9 +122,7 @@ The %{name}-jsc-devel package contains libraries, build data, and header
 files for developing applications that use JavaScript engine from %{name}.
 
 %prep
-%setup -q -n webkitgtk-%{version}
-%patch0 -p1 -b .user_agent
-%patch1 -p1 -b .youtube
+%autosetup -p1 -n webkitgtk-%{version}
 
 # Remove bundled libraries
 rm -rf Source/ThirdParty/gtest/
@@ -154,6 +153,8 @@ rm -rf Source/ThirdParty/qunit/
 
 # Disable ld.gold on s390 as it does not have it.
 # Also for aarch64 as the support is in upstream, but not packaged in Fedora.
+# Disable OpenGL since I suspect it causes WebKit#150955 and fdo#85064. And
+# possibly also WebKit#126122.
 mkdir -p %{_target_platform}
 pushd %{_target_platform}
 %cmake \
@@ -161,6 +162,7 @@ pushd %{_target_platform}
   -DCMAKE_BUILD_TYPE=Release \
   -DENABLE_GTKDOC=ON \
   -DENABLE_MINIBROWSER=ON \
+  -DENABLE_OPENGL=OFF \
 %ifarch s390 aarch64
   -DUSE_LD_GOLD=OFF \
 %endif
@@ -241,6 +243,10 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Wed Jan 13 2016 Michael Catanzaro <mcatanzaro@igalia.com> - 2.11.3-2
+- Build with ENABLE_OPENGL=OFF as I think it is causing bugs.
+- Stop static linking to LLVM.
+
 * Wed Jan 13 2016 Tomas Popela <tpopela@redhat.com> - 2.11.3-1
 - Update to 2.11.3
 
