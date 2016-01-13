@@ -6,8 +6,8 @@
         cp -p %1 _license_files/$(echo '%1' | sed -e 's!/!.!g')
 
 Name:           webkitgtk4
-Version:        2.11.2
-Release:        6%{?dist}
+Version:        2.11.3
+Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -241,6 +241,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Wed Jab 13 2016 Tomas Popela <tpopela@redhat.com> - 2.11.3-1
+- Update to 2.11.3
+
 * Wed Dec 30 2015 Michael Catanzaro <mcatanzaro@igalia.com> - 2.11.2-6
 - Remove webkitgtk-2.5.90-cloop_fix.patch and
   webkitgtk-2.8.0-page_size_align.patch. These have been broken for ages.
