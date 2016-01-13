@@ -241,7 +241,7 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
-* Wed Jab 13 2016 Tomas Popela <tpopela@redhat.com> - 2.11.3-1
+* Wed Jan 13 2016 Tomas Popela <tpopela@redhat.com> - 2.11.3-1
 - Update to 2.11.3
 
 * Wed Dec 30 2015 Michael Catanzaro <mcatanzaro@igalia.com> - 2.11.2-6
