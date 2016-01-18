@@ -170,7 +170,7 @@ pushd %{_target_platform}
   -DENABLE_JIT=OFF \
 %endif
 %ifarch s390 s390x %{arm} ppc %{power64} %{mips}
-  -DUSE_SYSTEM_MALLOC=ON
+  -DUSE_SYSTEM_MALLOC=ON \
 %endif
   ..
 popd
