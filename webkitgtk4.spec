@@ -7,7 +7,7 @@
 
 Name:           webkitgtk4
 Version:        2.11.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -241,6 +241,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Thu Jan 28 2016 Tomas Popela <tpopela@redhat.com> - 2.11.4-2
+- Rebuilt for LLVM rebase
+
 * Wed Jan 20 2016 Tomas Popela <tpopela@redhat.com> - 2.11.4-1
 - Update to 2.11.4
 
