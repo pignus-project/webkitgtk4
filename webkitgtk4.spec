@@ -7,7 +7,7 @@
 
 Name:           webkitgtk4
 Version:        2.11.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -241,6 +241,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Fri Feb 05 2016 Fedora Release Engineering <releng@fedoraproject.org> - 2.11.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
 * Thu Jan 28 2016 Tomas Popela <tpopela@redhat.com> - 2.11.4-2
 - Rebuilt for LLVM rebase
 
