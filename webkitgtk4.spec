@@ -7,7 +7,7 @@
 
 Name:           webkitgtk4
 Version:        2.11.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -53,7 +53,7 @@ BuildRequires:  libwayland-server-devel
 BuildRequires:  mesa-libGL-devel
 BuildRequires:  pcre-devel
 BuildRequires:  perl-Switch
-BuildRequires:  ruby
+BuildRequires:  ruby rubypick rubygems
 BuildRequires:  sqlite-devel
 BuildRequires:  hyphen-devel
 %ifarch ppc
@@ -232,6 +232,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Tue Feb  9 2016 Peter Robinson <pbrobinson@fedoraproject.org> 2.11.5-2
+- Add ruby deps for build
+
 * Tue Feb 09 2016 Tomas Popela <tpopela@redhat.com> - 2.11.5-1
 - Update to 2.11.5
 - Drop the llvm dependencies as we switched to B3
