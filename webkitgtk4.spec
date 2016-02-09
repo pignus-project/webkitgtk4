@@ -6,8 +6,8 @@
         cp -p %1 _license_files/$(echo '%1' | sed -e 's!/!.!g')
 
 Name:           webkitgtk4
-Version:        2.11.4
-Release:        3%{?dist}
+Version:        2.11.5
+Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -17,7 +17,7 @@ Source0:        http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
 # https://bugs.webkit.org/show_bug.cgi?id=142074
 Patch0:         webkitgtk-2.7.90-user-agent-branding.patch
 # https://bugs.webkit.org/show_bug.cgi?id=135972
-Patch1:         webkitgtk-2.9.4-youtube.patch
+Patch1:         webkitgtk-2.11.5-youtube.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -58,12 +58,6 @@ BuildRequires:  sqlite-devel
 BuildRequires:  hyphen-devel
 %ifarch ppc
 BuildRequires:  libatomic
-%endif
-%ifarch x86_64
-# Enable FTL
-BuildRequires:  libedit-devel
-BuildRequires:  llvm-devel
-Requires:       llvm
 %endif
 
 Requires:       geoclue2
@@ -222,9 +216,6 @@ make %{?_smp_mflags} -C %{_target_platform}
 %files jsc
 %license _license_files/*JavaScriptCore*
 %{_libdir}/libjavascriptcoregtk-4.0.so.*
-%ifarch x86_64
-%{_libdir}/javascriptcoregtk-4.0/libllvmForJSC.so
-%endif
 %{_libdir}/girepository-1.0/JavaScriptCore-4.0.typelib
 
 %files jsc-devel
@@ -241,6 +232,11 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Tue Feb 09 2016 Tomas Popela <tpopela@redhat.com> - 2.11.5-1
+- Update to 2.11.5
+- Drop the llvm dependencies as we switched to B3
+- Rebase the YouTube patch
+
 * Fri Feb 05 2016 Fedora Release Engineering <releng@fedoraproject.org> - 2.11.4-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
