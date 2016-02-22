@@ -6,7 +6,7 @@
         cp -p %1 _license_files/$(echo '%1' | sed -e 's!/!.!g')
 
 Name:           webkitgtk4
-Version:        2.11.5
+Version:        2.11.90
 Release:        2%{?dist}
 Summary:        GTK+ Web content engine library
 
@@ -232,6 +232,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Mon Feb 22 2016 Tomas Popela <tpopela@redhat.com> - 2.11.90-1
+- Update to 2.11.90
+
 * Tue Feb  9 2016 Peter Robinson <pbrobinson@fedoraproject.org> 2.11.5-2
 - Add ruby deps for build
 
