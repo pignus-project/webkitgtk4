@@ -7,7 +7,7 @@
 
 Name:           webkitgtk4
 Version:        2.11.90
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -145,8 +145,6 @@ rm -rf Source/ThirdParty/qunit/
 
 # Disable ld.gold on s390 as it does not have it.
 # Also for aarch64 as the support is in upstream, but not packaged in Fedora.
-# Disable OpenGL since I suspect it causes WebKit#150955 and fdo#85064. And
-# possibly also WebKit#126122.
 mkdir -p %{_target_platform}
 pushd %{_target_platform}
 %cmake \
@@ -154,7 +152,6 @@ pushd %{_target_platform}
   -DCMAKE_BUILD_TYPE=Release \
   -DENABLE_GTKDOC=ON \
   -DENABLE_MINIBROWSER=ON \
-  -DENABLE_OPENGL=OFF \
 %ifarch s390 aarch64
   -DUSE_LD_GOLD=OFF \
 %endif
@@ -232,6 +229,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Wed Feb 24 2016 Michael Catanzaro <mcatanzaro@igalia.com> - 2.11.90-3
+- Stop building with ENABLE_OPENGL=OFF, see WebKit#126122 and WebKit#150955.
+
 * Mon Feb 22 2016 Tomas Popela <tpopela@redhat.com> - 2.11.90-1
 - Update to 2.11.90
 
