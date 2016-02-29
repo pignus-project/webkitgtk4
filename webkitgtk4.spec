@@ -7,7 +7,7 @@
 
 Name:           webkitgtk4
 Version:        2.11.90
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -204,6 +204,7 @@ make %{?_smp_mflags} -C %{_target_platform}
 %files devel
 %{_bindir}/MiniBrowser
 %{_includedir}/webkitgtk-4.0/
+%exclude %{_includedir}/webkitgtk-4.0/JavaScriptCore
 %{_libdir}/libwebkit2gtk-4.0.so
 %{_libdir}/pkgconfig/webkit2gtk-4.0.pc
 %{_libdir}/pkgconfig/webkit2gtk-web-extension-4.0.pc
@@ -217,6 +218,8 @@ make %{?_smp_mflags} -C %{_target_platform}
 
 %files jsc-devel
 %{_bindir}/jsc
+%dir %{_includedir}/webkitgtk-4.0
+%{_includedir}/webkitgtk-4.0/JavaScriptCore/
 %{_libdir}/libjavascriptcoregtk-4.0.so
 %{_libdir}/pkgconfig/javascriptcoregtk-4.0.pc
 %{_libdir}/girepository-1.0/JavaScriptCore-4.0.typelib
@@ -229,6 +232,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Mon Feb 29 2016 David King <amigadave@amigadave.com> - 2.11.90-4
+- Move JavaScriptCore headers to jsc-devel subpackage (#1312894)
+
 * Wed Feb 24 2016 Michael Catanzaro <mcatanzaro@igalia.com> - 2.11.90-3
 - Stop building with ENABLE_OPENGL=OFF, see WebKit#126122 and WebKit#150955.
 
