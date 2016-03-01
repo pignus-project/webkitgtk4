@@ -6,8 +6,8 @@
         cp -p %1 _license_files/$(echo '%1' | sed -e 's!/!.!g')
 
 Name:           webkitgtk4
-Version:        2.11.90
-Release:        4%{?dist}
+Version:        2.11.91
+Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -232,6 +232,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Tue Mar 01 2016 Tomas Popela <tpopela@redhat.com> - 2.11.91-1
+- Update to 2.11.91
+
 * Mon Feb 29 2016 David King <amigadave@amigadave.com> - 2.11.90-4
 - Move JavaScriptCore headers to jsc-devel subpackage (#1312894)
 
