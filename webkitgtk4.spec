@@ -7,7 +7,7 @@
 
 Name:           webkitgtk4
 Version:        2.11.91
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -73,6 +73,9 @@ Provides:	bundled(angle)
 # Require the jsc subpackage
 Requires:       %{name}-jsc%{?_isa} = %{version}-%{release}
 
+# Recommend the support for the GTK+ 2 based NPAPI plugins
+Recommends:     %{name}-plugin-process-gtk2%{?_isa} = %{version}-%{release}
+
 # Filter out provides for private libraries
 %global __provides_exclude_from ^%{_libdir}/webkit2gtk-4\\.0/.*\\.so$
 
@@ -112,6 +115,12 @@ Requires:       %{name}-jsc%{?_isa} = %{version}-%{release}
 %description    jsc-devel
 The %{name}-jsc-devel package contains libraries, build data, and header
 files for developing applications that use JavaScript engine from %{name}.
+
+%package        plugin-process-gtk2
+Summary:        GTK+ 2 based NPAPI plugins support for %{name}
+
+%description    plugin-process-gtk2
+Support for the GTK+ 2 based NPAPI plugins (such as Adobe Flash) for %{name}.
 
 %prep
 %autosetup -p1 -n webkitgtk-%{version}
@@ -200,6 +209,7 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_libdir}/girepository-1.0/WebKit2WebExtension-4.0.typelib
 %{_libdir}/webkit2gtk-4.0/
 %{_libexecdir}/webkit2gtk-4.0/
+%exclude %{_libexecdir}/webkit2gtk-4.0/WebKitPluginProcess2
 
 %files devel
 %{_bindir}/MiniBrowser
@@ -225,6 +235,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_libdir}/girepository-1.0/JavaScriptCore-4.0.typelib
 %{_datadir}/gir-1.0/JavaScriptCore-4.0.gir
 
+%files plugin-process-gtk2
+%{_libexecdir}/webkit2gtk-4.0/WebKitPluginProcess2
+
 %files doc
 %dir %{_datadir}/gtk-doc
 %dir %{_datadir}/gtk-doc/html
@@ -232,6 +245,10 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Tue Mar 15 2016 Tomas Popela <tpopela@redhat.com> - 2.11.91-2
+- Subpackage the WebKitPluginProcess2
+- Resolves: rhbz#1317692
+
 * Tue Mar 01 2016 Tomas Popela <tpopela@redhat.com> - 2.11.91-1
 - Update to 2.11.91
 
