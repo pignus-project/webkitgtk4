@@ -200,6 +200,8 @@ make %{?_smp_mflags} -C %{_target_platform}
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
+%post jsc -p /sbin/ldconfig
+%postun jsc -p /sbin/ldconfig
 
 %files -f WebKit2GTK-4.0.lang
 %license _license_files/*ThirdParty*
