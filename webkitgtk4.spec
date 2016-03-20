@@ -7,7 +7,7 @@
 
 Name:           webkitgtk4
 Version:        2.11.92
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -249,6 +249,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Sun Mar 20 2016 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 2.11.92-3
+- Add missing ldconfig call for jsc subpkg
+
 * Thu Mar 17 2016 Tomas Popela <tpopela@redhat.com> - 2.11.92-2
 - Fix the build with gcc6
 
