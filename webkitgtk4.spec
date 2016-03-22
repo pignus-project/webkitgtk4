@@ -6,8 +6,8 @@
         cp -p %1 _license_files/$(echo '%1' | sed -e 's!/!.!g')
 
 Name:           webkitgtk4
-Version:        2.11.92
-Release:        2%{?dist}
+Version:        2.12.0
+Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -18,8 +18,6 @@ Source0:        http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
 Patch0:         webkitgtk-2.7.90-user-agent-branding.patch
 # https://bugs.webkit.org/show_bug.cgi?id=135972
 Patch1:         webkitgtk-2.11.5-youtube.patch
-# https://bugs.webkit.org/show_bug.cgi?id=155044
-Patch2:         webkitgtk-2.11.92-gcc6.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -234,6 +232,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Tue Mar 22 2016 Tomas Popela <tpopela@redhat.com> - 2.12.0-1
+- Update to 2.12.0
+
 * Thu Mar 17 2016 Tomas Popela <tpopela@redhat.com> - 2.11.92-2
 - Fix the build with gcc6
 
