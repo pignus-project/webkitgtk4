@@ -7,7 +7,7 @@
 
 Name:           webkitgtk4
 Version:        2.12.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -18,6 +18,8 @@ Source0:        http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
 Patch0:         webkitgtk-2.7.90-user-agent-branding.patch
 # https://bugs.webkit.org/show_bug.cgi?id=135972
 Patch1:         webkitgtk-2.11.5-youtube.patch
+# https://bugs.webkit.org/show_bug.cgi?id=155885
+Patch2:         webkitgtk-2.12.0-repaintOrMarkForLayout.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -75,6 +77,7 @@ Requires:       %{name}-jsc%{?_isa} = %{version}-%{release}
 
 # Recommend the support for the GTK+ 2 based NPAPI plugins
 Recommends:     %{name}-plugin-process-gtk2%{?_isa} = %{version}-%{release}
+Obsoletes:      %{name}%{?_isa} < 2.12.0-2
 
 # Filter out provides for private libraries
 %global __provides_exclude_from ^%{_libdir}/webkit2gtk-4\\.0/.*\\.so$
@@ -118,6 +121,7 @@ files for developing applications that use JavaScript engine from %{name}.
 
 %package        plugin-process-gtk2
 Summary:        GTK+ 2 based NPAPI plugins support for %{name}
+Obsoletes:      %{name}%{?_isa} < 2.12.0-2
 
 %description    plugin-process-gtk2
 Support for the GTK+ 2 based NPAPI plugins (such as Adobe Flash) for %{name}.
@@ -247,6 +251,10 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Wed Apr 06 2016 Michael Catanzaro <mcatanzaro@igalia.com> - 2.12.0-2
+- Attempt to ensure plugin-process-gtk2 is installed on upgrade
+- Add patch for WebKit#155885
+
 * Tue Mar 22 2016 Tomas Popela <tpopela@redhat.com> - 2.12.0-1
 - Update to 2.12.0
 
