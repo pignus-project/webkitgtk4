@@ -1,0 +1,236 @@
+From 43b6b949b80310c90d1628d660a8319c20f00246 Mon Sep 17 00:00:00 2001
+From: "zalan@apple.com" <zalan@apple.com@268f45cc-cd09-0410-ab3c-d52691b4dbfc>
+Date: Fri, 25 Mar 2016 23:45:13 +0000
+Subject: [PATCH] RenderImage::repaintOrMarkForLayout fails when the renderer
+ is detached. https://bugs.webkit.org/show_bug.cgi?id=155885
+ <rdar://problem/25359164>
+
+Reviewed by Simon Fraser.
+
+Making containingBlockFor* functions standalone ensures that we don't
+call them on an invalid object.
+
+Covered by existing tests.
+
+* dom/Element.cpp:
+(WebCore::layoutOverflowRectContainsAllDescendants):
+* rendering/LogicalSelectionOffsetCaches.h:
+(WebCore::LogicalSelectionOffsetCaches::LogicalSelectionOffsetCaches):
+* rendering/RenderElement.cpp:
+(WebCore::containingBlockForFixedPosition):
+(WebCore::containingBlockForAbsolutePosition):
+(WebCore::containingBlockForObjectInFlow):
+(WebCore::RenderElement::containingBlockForFixedPosition): Deleted.
+(WebCore::RenderElement::containingBlockForAbsolutePosition): Deleted.
+(WebCore::isNonRenderBlockInline): Deleted.
+(WebCore::RenderElement::containingBlockForObjectInFlow): Deleted.
+* rendering/RenderElement.h:
+* rendering/RenderInline.cpp:
+(WebCore::RenderInline::styleWillChange):
+* rendering/RenderObject.cpp:
+(WebCore::RenderObject::containingBlock):
+
+
+git-svn-id: http://svn.webkit.org/repository/webkit/trunk@198701 268f45cc-cd09-0410-ab3c-d52691b4dbfc
+---
+ Source/WebCore/ChangeLog                           | 31 +++++++++
+ Source/WebCore/dom/Element.cpp                     |  2 +-
+ .../rendering/LogicalSelectionOffsetCaches.h       |  6 +-
+ Source/WebCore/rendering/RenderElement.cpp         | 79 ++++++++++------------
+ Source/WebCore/rendering/RenderElement.h           |  7 +-
+ Source/WebCore/rendering/RenderInline.cpp          |  2 +-
+ Source/WebCore/rendering/RenderObject.cpp          | 12 ++--
+ 7 files changed, 82 insertions(+), 57 deletions(-)
+
+diff --git a/Source/WebCore/dom/Element.cpp b/Source/WebCore/dom/Element.cpp
+index 75fe8f8..e904e9b 100644
+--- a/Source/WebCore/dom/Element.cpp
++++ b/Source/WebCore/dom/Element.cpp
+@@ -974,7 +974,7 @@ static bool layoutOverflowRectContainsAllDescendants(const RenderElement& render
+     }
+ 
+     // This renderer may have positioned descendants whose containing block is some ancestor.
+-    if (auto containingBlock = renderer.containingBlockForAbsolutePosition()) {
++    if (auto containingBlock = containingBlockForAbsolutePosition(&renderer)) {
+         if (auto positionedObjects = containingBlock->positionedObjects()) {
+             for (RenderBox* it : *positionedObjects) {
+                 if (it != &renderer && renderer.element()->contains(it->element()))
+diff --git a/Source/WebCore/rendering/LogicalSelectionOffsetCaches.h b/Source/WebCore/rendering/LogicalSelectionOffsetCaches.h
+index a3f8112..aefe107 100644
+--- a/Source/WebCore/rendering/LogicalSelectionOffsetCaches.h
++++ b/Source/WebCore/rendering/LogicalSelectionOffsetCaches.h
+@@ -91,9 +91,9 @@ public:
+         auto parent = rootBlock.parent();
+ 
+         // LogicalSelectionOffsetCaches should not be used on an orphaned tree.
+-        m_containingBlockForFixedPosition.setBlock(parent->containingBlockForFixedPosition(), nullptr);
+-        m_containingBlockForAbsolutePosition.setBlock(parent->containingBlockForAbsolutePosition(), nullptr);
+-        m_containingBlockForInflowPosition.setBlock(parent->containingBlockForObjectInFlow(), nullptr);
++        m_containingBlockForFixedPosition.setBlock(containingBlockForFixedPosition(parent), nullptr);
++        m_containingBlockForAbsolutePosition.setBlock(containingBlockForAbsolutePosition(parent), nullptr);
++        m_containingBlockForInflowPosition.setBlock(containingBlockForObjectInFlow(parent), nullptr);
+     }
+ 
+     LogicalSelectionOffsetCaches(RenderBlock& block, const LogicalSelectionOffsetCaches& cache)
+diff --git a/Source/WebCore/rendering/RenderElement.cpp b/Source/WebCore/rendering/RenderElement.cpp
+index a17b8f6..9c19f5c 100644
+--- a/Source/WebCore/rendering/RenderElement.cpp
++++ b/Source/WebCore/rendering/RenderElement.cpp
+@@ -1585,48 +1585,6 @@ PassRefPtr<RenderStyle> RenderElement::getUncachedPseudoStyle(const PseudoStyleR
+     return styleResolver.pseudoStyleForElement(*element(), pseudoStyleRequest, *parentStyle);
+ }
+ 
+-RenderBlock* RenderElement::containingBlockForFixedPosition() const
+-{
+-    const RenderElement* object = this;
+-    while (object && !object->canContainFixedPositionObjects())
+-        object = object->parent();
+-
+-    ASSERT(!object || !object->isAnonymousBlock());
+-    return const_cast<RenderBlock*>(downcast<RenderBlock>(object));
+-}
+-
+-RenderBlock* RenderElement::containingBlockForAbsolutePosition() const
+-{
+-    const RenderElement* object = this;
+-    while (object && !object->canContainAbsolutelyPositionedObjects())
+-        object = object->parent();
+-
+-    // For a relatively positioned inline, return its nearest non-anonymous containing block,
+-    // not the inline itself, to avoid having a positioned objects list in all RenderInlines
+-    // and use RenderBlock* as RenderElement::containingBlock's return type.
+-    // Use RenderBlock::container() to obtain the inline.
+-    if (object && !is<RenderBlock>(*object))
+-        object = object->containingBlock();
+-
+-    while (object && object->isAnonymousBlock())
+-        object = object->containingBlock();
+-
+-    return const_cast<RenderBlock*>(downcast<RenderBlock>(object));
+-}
+-
+-static inline bool isNonRenderBlockInline(const RenderElement& object)
+-{
+-    return (object.isInline() && !object.isReplaced()) || !object.isRenderBlock();
+-}
+-
+-RenderBlock* RenderElement::containingBlockForObjectInFlow() const
+-{
+-    const RenderElement* object = this;
+-    while (object && isNonRenderBlockInline(*object))
+-        object = object->parent();
+-    return const_cast<RenderBlock*>(downcast<RenderBlock>(object));
+-}
+-
+ Color RenderElement::selectionColor(int colorProperty) const
+ {
+     // If the element is unselectable, or we are only painting the selection,
+@@ -2210,4 +2168,41 @@ void RenderElement::updateOutlineAutoAncestor(bool hasOutlineAuto) const
+         downcast<RenderBoxModelObject>(*this).continuation()->updateOutlineAutoAncestor(hasOutlineAuto);
+ }
+ 
++RenderBlock* containingBlockForFixedPosition(const RenderElement* element)
++{
++    const auto* object = element;
++    while (object && !object->canContainFixedPositionObjects())
++        object = object->parent();
++
++    ASSERT(!object || !object->isAnonymousBlock());
++    return const_cast<RenderBlock*>(downcast<RenderBlock>(object));
++}
++
++RenderBlock* containingBlockForAbsolutePosition(const RenderElement* element)
++{
++    const auto* object = element;
++    while (object && !object->canContainAbsolutelyPositionedObjects())
++        object = object->parent();
++
++    // For a relatively positioned inline, return its nearest non-anonymous containing block,
++    // not the inline itself, to avoid having a positioned objects list in all RenderInlines
++    // and use RenderBlock* as RenderElement::containingBlock's return type.
++    // Use RenderBlock::container() to obtain the inline.
++    if (object && !is<RenderBlock>(*object))
++        object = object->containingBlock();
++
++    while (object && object->isAnonymousBlock())
++        object = object->containingBlock();
++
++    return const_cast<RenderBlock*>(downcast<RenderBlock>(object));
++}
++
++RenderBlock* containingBlockForObjectInFlow(const RenderElement* element)
++{
++    const auto* object = element;
++    while (object && ((object->isInline() && !object->isReplaced()) || !object->isRenderBlock()))
++        object = object->parent();
++    return const_cast<RenderBlock*>(downcast<RenderBlock>(object));
++}
++
+ }
+diff --git a/Source/WebCore/rendering/RenderElement.h b/Source/WebCore/rendering/RenderElement.h
+index ec15a67..02e5449 100644
+--- a/Source/WebCore/rendering/RenderElement.h
++++ b/Source/WebCore/rendering/RenderElement.h
+@@ -71,10 +71,6 @@ public:
+     bool canContainFixedPositionObjects() const;
+     bool canContainAbsolutelyPositionedObjects() const;
+ 
+-    RenderBlock* containingBlockForFixedPosition() const;
+-    RenderBlock* containingBlockForAbsolutePosition() const;
+-    RenderBlock* containingBlockForObjectInFlow() const;
+-
+     Color selectionColor(int colorProperty) const;
+     PassRefPtr<RenderStyle> selectionPseudoStyle() const;
+ 
+@@ -495,6 +491,9 @@ inline LayoutUnit adjustLayoutUnitForAbsoluteZoom(LayoutUnit value, const Render
+     return adjustLayoutUnitForAbsoluteZoom(value, renderer.style());
+ }
+ 
++RenderBlock* containingBlockForFixedPosition(const RenderElement*);
++RenderBlock* containingBlockForAbsolutePosition(const RenderElement*);
++RenderBlock* containingBlockForObjectInFlow(const RenderElement*);
+ } // namespace WebCore
+ 
+ SPECIALIZE_TYPE_TRAITS_RENDER_OBJECT(RenderElement, isRenderElement())
+diff --git a/Source/WebCore/rendering/RenderInline.cpp b/Source/WebCore/rendering/RenderInline.cpp
+index b6c6b54..38ed407 100644
+--- a/Source/WebCore/rendering/RenderInline.cpp
++++ b/Source/WebCore/rendering/RenderInline.cpp
+@@ -171,7 +171,7 @@ void RenderInline::styleWillChange(StyleDifference diff, const RenderStyle& newS
+     // Check if this inline can hold absolute positioned elmements even after the style change.
+     if (canContainAbsolutelyPositionedObjects() && newStyle.position() == StaticPosition) {
+         // RenderInlines forward their absolute positioned descendants to their (non-anonymous) containing block.
+-        auto* container = containingBlockForAbsolutePosition();
++        auto* container = containingBlockForAbsolutePosition(this);
+         if (container && !container->canContainAbsolutelyPositionedObjects())
+             container->removePositionedObjects(nullptr, NewContainingBlock);
+     }
+diff --git a/Source/WebCore/rendering/RenderObject.cpp b/Source/WebCore/rendering/RenderObject.cpp
+index 3b9548f..edb4f33 100644
+--- a/Source/WebCore/rendering/RenderObject.cpp
++++ b/Source/WebCore/rendering/RenderObject.cpp
+@@ -706,15 +706,15 @@ RenderBlock* RenderObject::containingBlock() const
+ 
+     const RenderStyle& style = this->style();
+     if (!is<RenderText>(*this) && style.position() == FixedPosition)
+-        parent = parent->containingBlockForFixedPosition();
++        parent = containingBlockForFixedPosition(parent);
+     else if (!is<RenderText>(*this) && style.position() == AbsolutePosition)
+-        parent = parent->containingBlockForAbsolutePosition();
++        parent = containingBlockForAbsolutePosition(parent);
+     else
+-        parent = parent->containingBlockForObjectInFlow();
+-
+-    if (!is<RenderBlock>(parent))
+-        return nullptr; // This can still happen in case of an orphaned tree
++        parent = containingBlockForObjectInFlow(parent);
+ 
++    // This can still happen in case of an detached tree
++    if (!parent)
++        return nullptr;
+     return downcast<RenderBlock>(parent);
+ }
+ 
+-- 
+2.5.5
+
