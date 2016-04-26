@@ -250,7 +250,8 @@ make %{?_smp_mflags} -C %{_target_platform}
 
 %changelog
 * Tue Apr 26 2016 Tomas Popela <tpopela@redhat.com> - 2.12.1-3
-- Fix the build on aarch64 - disable bmalloc as it's crashing
+- Fix the build on aarch64 - disable bmalloc as it's crashing when generating
+  the documentation
 
 * Fri Apr 15 2016 David Tardon <dtardon@redhat.com> - 2.12.1-2
 - rebuild for ICU 57.1
