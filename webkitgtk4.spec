@@ -7,7 +7,7 @@
 
 Name:           webkitgtk4
 Version:        2.12.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -249,6 +249,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Tue Apr 26 2016 Tomas Popela <tpopela@redhat.com> - 2.12.1-3
+- Fix the build on aarch64 - disable bmalloc as it's crashing
+
 * Fri Apr 15 2016 David Tardon <dtardon@redhat.com> - 2.12.1-2
 - rebuild for ICU 57.1
 
