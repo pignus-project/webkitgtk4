@@ -6,8 +6,8 @@
         cp -p %1 _license_files/$(echo '%1' | sed -e 's!/!.!g')
 
 Name:           webkitgtk4
-Version:        2.12.1
-Release:        3%{?dist}
+Version:        2.12.2
+Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -147,7 +147,7 @@ rm -rf Source/ThirdParty/qunit/
 
 %ifarch ppc
 # Use linker flag -relax to get WebKit build under ppc(32) with JIT disabled
-%global optflags %{optflags} -Wl,-relax -latomic
+%global optflags %{optflags} -Wl,-relax
 %endif
 
 %if 0%{?fedora}
@@ -249,6 +249,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Thu Apr 28 2016 Tomas Popela <tpopela@redhat.com> - 2.12.2-1
+- Update to 2.12.2
+
 * Tue Apr 26 2016 Tomas Popela <tpopela@redhat.com> - 2.12.1-3
 - Fix the build on aarch64 - disable bmalloc as it's crashing when generating
   the documentation
