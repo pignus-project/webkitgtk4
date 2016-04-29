@@ -236,7 +236,6 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_includedir}/webkitgtk-4.0/JavaScriptCore/
 %{_libdir}/libjavascriptcoregtk-4.0.so
 %{_libdir}/pkgconfig/javascriptcoregtk-4.0.pc
-%{_libdir}/girepository-1.0/JavaScriptCore-4.0.typelib
 %{_datadir}/gir-1.0/JavaScriptCore-4.0.gir
 
 %files plugin-process-gtk2
