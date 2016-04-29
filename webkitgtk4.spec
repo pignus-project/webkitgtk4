@@ -7,7 +7,7 @@
 
 Name:           webkitgtk4
 Version:        2.12.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -248,6 +248,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Fri Apr 29 2016 Igor Gnatenko <ignatenko@redhat.com> - 2.12.2-2
+- Remove typelib from jsc-devel because it is in jsc
+
 * Thu Apr 28 2016 Tomas Popela <tpopela@redhat.com> - 2.12.2-1
 - Update to 2.12.2
 
