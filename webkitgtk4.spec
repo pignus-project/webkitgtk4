@@ -7,7 +7,7 @@
 
 Name:           webkitgtk4
 Version:        2.12.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -236,7 +236,6 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_includedir}/webkitgtk-4.0/JavaScriptCore/
 %{_libdir}/libjavascriptcoregtk-4.0.so
 %{_libdir}/pkgconfig/javascriptcoregtk-4.0.pc
-%{_libdir}/girepository-1.0/JavaScriptCore-4.0.typelib
 %{_datadir}/gir-1.0/JavaScriptCore-4.0.gir
 
 %files plugin-process-gtk2
@@ -249,12 +248,18 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Fri Apr 29 2016 Igor Gnatenko <ignatenko@redhat.com> - 2.12.2-2
+- Remove typelib from jsc-devel because it is in jsc
+
 * Thu Apr 28 2016 Tomas Popela <tpopela@redhat.com> - 2.12.2-1
 - Update to 2.12.2
 
-* Tue Apr 26 2016 Tomas Popela <tpopela@redhat.com> - 2.12.1-2
+* Tue Apr 26 2016 Tomas Popela <tpopela@redhat.com> - 2.12.1-3
 - Fix the build on aarch64 - disable bmalloc as it's crashing when generating
   the documentation
+
+* Fri Apr 15 2016 David Tardon <dtardon@redhat.com> - 2.12.1-2
+- rebuild for ICU 57.1
 
 * Thu Apr 14 2016 Tomas Popela <tpopela@redhat.com> - 2.12.1-1
 - Update to 2.12.1
