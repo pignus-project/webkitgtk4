@@ -6,8 +6,8 @@
         cp -p %1 _license_files/$(echo '%1' | sed -e 's!/!.!g')
 
 Name:           webkitgtk4
-Version:        2.12.2
-Release:        2%{?dist}
+Version:        2.12.3
+Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -16,8 +16,6 @@ Source0:        http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
 
 # https://bugs.webkit.org/show_bug.cgi?id=142074
 Patch0:         webkitgtk-2.7.90-user-agent-branding.patch
-# https://bugs.webkit.org/show_bug.cgi?id=135972
-Patch1:         webkitgtk-2.11.5-youtube.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -248,6 +246,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Tue May 24 2016 Tomas Popela <tpopela@redhat.com> - 2.12.3-1
+- Update to 2.12.3
+
 * Fri Apr 29 2016 Igor Gnatenko <ignatenko@redhat.com> - 2.12.2-2
 - Remove typelib from jsc-devel because it is in jsc
 
