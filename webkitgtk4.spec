@@ -54,6 +54,7 @@ BuildRequires:  perl-Switch
 BuildRequires:  ruby rubypick rubygems
 BuildRequires:  sqlite-devel
 BuildRequires:  hyphen-devel
+BuildRequires:  gnutls-devel
 %ifarch ppc
 BuildRequires:  libatomic
 %endif
