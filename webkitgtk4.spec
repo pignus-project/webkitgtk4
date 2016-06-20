@@ -18,7 +18,7 @@ Source0:        http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
 Patch0:         webkitgtk-2.7.90-user-agent-branding.patch
 # https://fedoraproject.org/wiki/Packaging:CryptoPolicies
 # https://bugs.webkit.org/show_bug.cgi?id=158785
-Patch0:		fedora-crypto-policy.patch
+Patch1:		fedora-crypto-policy.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
