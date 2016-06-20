@@ -7,7 +7,7 @@
 
 Name:           webkitgtk4
 Version:        2.13.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -16,6 +16,9 @@ Source0:        http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
 
 # https://bugs.webkit.org/show_bug.cgi?id=142074
 Patch0:         webkitgtk-2.7.90-user-agent-branding.patch
+# https://fedoraproject.org/wiki/Packaging:CryptoPolicies
+# https://bugs.webkit.org/show_bug.cgi?id=158785
+Patch0:		fedora-crypto-policy.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -247,6 +250,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Sun Jun 19 2016 Michael Catanzaro <mcatanzaro@igalia.com> - 2.13.1-2
+- Add patch to comply with Fedora crypto policy
+
 * Tue May 31 2016 Tomas Popela <tpopela@redhat.com> - 2.13.1-1
 - Update to 2.13.1
 

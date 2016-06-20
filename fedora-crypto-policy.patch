@@ -1,0 +1,39 @@
+From e583c6f7deb86406f7e0375c560503858f4831ca Mon Sep 17 00:00:00 2001
+From: Michael Catanzaro <mcatanzaro@igalia.com>
+Date: Sun, 19 Jun 2016 21:10:03 -0500
+Subject: [PATCH] https://fedoraproject.org/wiki/Packaging:CryptoPolicies
+
+---
+ Source/WebKit2/NetworkProcess/EntryPoint/unix/NetworkProcessMain.cpp | 2 +-
+ Source/WebKit2/WebProcess/EntryPoint/unix/WebProcessMain.cpp         | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Source/WebKit2/NetworkProcess/EntryPoint/unix/NetworkProcessMain.cpp b/Source/WebKit2/NetworkProcess/EntryPoint/unix/NetworkProcessMain.cpp
+index b282e16..ed8bbbd 100644
+--- a/Source/WebKit2/NetworkProcess/EntryPoint/unix/NetworkProcessMain.cpp
++++ b/Source/WebKit2/NetworkProcess/EntryPoint/unix/NetworkProcessMain.cpp
+@@ -39,7 +39,7 @@ int main(int argc, char** argv)
+     // overwrite this priority string if it's already set by the user.
+     // https://bugzilla.gnome.org/show_bug.cgi?id=738633
+     // WARNING: This needs to be KEPT IN SYNC with WebProcessMain.cpp.
+-    setenv("G_TLS_GNUTLS_PRIORITY", "NORMAL:%COMPAT:%LATEST_RECORD_VERSION:!VERS-SSL3.0:!ARCFOUR-128", 0);
++    setenv("G_TLS_GNUTLS_PRIORITY", "@SYSTEM:%COMPAT:%LATEST_RECORD_VERSION:!VERS-SSL3.0:!ARCFOUR-128", 0);
+ 
+     return NetworkProcessMainUnix(argc, argv);
+ }
+diff --git a/Source/WebKit2/WebProcess/EntryPoint/unix/WebProcessMain.cpp b/Source/WebKit2/WebProcess/EntryPoint/unix/WebProcessMain.cpp
+index 5f45d01..2b34ead 100644
+--- a/Source/WebKit2/WebProcess/EntryPoint/unix/WebProcessMain.cpp
++++ b/Source/WebKit2/WebProcess/EntryPoint/unix/WebProcessMain.cpp
+@@ -39,7 +39,7 @@ int main(int argc, char** argv)
+     // overwrite this priority string if it's already set by the user.
+     // https://bugzilla.gnome.org/show_bug.cgi?id=738633
+     // WARNING: This needs to be KEPT IN SYNC with WebProcessMain.cpp.
+-    setenv("G_TLS_GNUTLS_PRIORITY", "NORMAL:%COMPAT:%LATEST_RECORD_VERSION:!VERS-SSL3.0:!ARCFOUR-128", 0);
++    setenv("G_TLS_GNUTLS_PRIORITY", "@SYSTEM:%COMPAT:%LATEST_RECORD_VERSION:!VERS-SSL3.0:!ARCFOUR-128", 0);
+ 
+     return WebProcessMainUnix(argc, argv);
+ }
+-- 
+2.7.4
+
