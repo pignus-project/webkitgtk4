@@ -6,8 +6,8 @@
         cp -p %1 _license_files/$(echo '%1' | sed -e 's!/!.!g')
 
 Name:           webkitgtk4
-Version:        2.13.1
-Release:        2%{?dist}
+Version:        2.13.2
+Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -250,6 +250,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Thu Jun 23 2016 Tomas Popela <tpopela@redhat.com> - 2.13.2-1
+- Update to 2.13.2
+
 * Sun Jun 19 2016 Michael Catanzaro <mcatanzaro@igalia.com> - 2.13.1-2
 - Add patch to comply with Fedora crypto policy
 
