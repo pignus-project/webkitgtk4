@@ -168,7 +168,7 @@ pushd %{_target_platform}
 %ifarch s390 aarch64
   -DUSE_LD_GOLD=OFF \
 %endif
-%ifarch s390 s390x ppc %{power64} aarch64 %{mips}
+%ifarch s390 s390x ppc %{power64} %{arm} aarch64 %{mips}
   -DENABLE_JIT=OFF \
 %endif
 %ifarch s390 s390x ppc %{power64} %{arm} aarch64 %{mips}
@@ -252,6 +252,7 @@ make %{?_smp_mflags} -C %{_target_platform}
 %changelog
 * Thu Jun 23 2016 Tomas Popela <tpopela@redhat.com> - 2.13.2-1
 - Update to 2.13.2
+- Disable JIT on ARM until https://bugs.webkit.org/show_bug.cgi?id=159083 is fixed
 
 * Sun Jun 19 2016 Michael Catanzaro <mcatanzaro@igalia.com> - 2.13.1-2
 - Add patch to comply with Fedora crypto policy
