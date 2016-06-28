@@ -7,7 +7,7 @@
 
 Name:           webkitgtk4
 Version:        2.13.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -19,6 +19,8 @@ Patch0:         webkitgtk-2.7.90-user-agent-branding.patch
 # https://fedoraproject.org/wiki/Packaging:CryptoPolicies
 # https://bugs.webkit.org/show_bug.cgi?id=158785
 Patch1:		fedora-crypto-policy.patch
+# https://bugs.webkit.org/show_bug.cgi?id=159083
+Patch2:		webkitgtk-2.13.2-armv7_thumb2.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -168,10 +170,10 @@ pushd %{_target_platform}
 %ifarch s390 aarch64
   -DUSE_LD_GOLD=OFF \
 %endif
-%ifarch s390 s390x ppc %{power64} %{arm} aarch64 %{mips}
+%ifarch s390 s390x ppc %{power64} aarch64 %{mips}
   -DENABLE_JIT=OFF \
 %endif
-%ifarch s390 s390x ppc %{power64} %{arm} aarch64 %{mips}
+%ifarch s390 s390x ppc %{power64} aarch64 %{mips}
   -DUSE_SYSTEM_MALLOC=ON \
 %endif
   ..
@@ -250,6 +252,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Thu Jun 23 2016 Tomas Popela <tpopela@redhat.com> - 2.13.2-2
+- Enable JIT and BMalloc on ARMv7
+
 * Thu Jun 23 2016 Tomas Popela <tpopela@redhat.com> - 2.13.2-1
 - Update to 2.13.2
 - Disable JIT on ARM until https://bugs.webkit.org/show_bug.cgi?id=159083 is fixed

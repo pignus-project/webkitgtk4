@@ -1,0 +1,11 @@
+diff -up webkitgtk-2.13.2/Source/WTF/wtf/Platform.h.armv7_thumb2 webkitgtk-2.13.2/Source/WTF/wtf/Platform.h
+--- webkitgtk-2.13.2/Source/WTF/wtf/Platform.h.armv7_thumb2	2016-06-28 15:48:35.879215828 +0200
++++ webkitgtk-2.13.2/Source/WTF/wtf/Platform.h	2016-06-28 15:49:14.291077281 +0200
+@@ -302,6 +302,7 @@
+ /* Only one of these will be defined. */
+ #if !defined(WTF_CPU_ARM_TRADITIONAL) && !defined(WTF_CPU_ARM_THUMB2)
+ #  if defined(thumb2) || defined(__thumb2__) \
++    || (defined(__ARM_ARCH_ISA_THUMB) && __ARM_ARCH_ISA_THUMB == 2) \
+     || ((defined(__thumb) || defined(__thumb__)) && WTF_THUMB_ARCH_VERSION == 4)
+ #    define WTF_CPU_ARM_TRADITIONAL 0
+ #    define WTF_CPU_ARM_THUMB2 1
