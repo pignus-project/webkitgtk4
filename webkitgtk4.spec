@@ -7,7 +7,7 @@
 
 Name:           webkitgtk4
 Version:        2.13.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -21,6 +21,8 @@ Patch0:         webkitgtk-2.7.90-user-agent-branding.patch
 Patch1:		fedora-crypto-policy.patch
 # https://bugs.webkit.org/show_bug.cgi?id=159083
 Patch2:		webkitgtk-2.13.2-armv7_thumb2.patch
+# https://bugs.webkit.org/show_bug.cgi?id=158697
+Patch3:         webkitgtk-2.13.2-disable-npapi-in-wayland.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -70,9 +72,11 @@ Requires:       geoclue2
 Obsoletes:      libwebkit2gtk < 2.5.0
 Provides:       libwebkit2gtk = %{version}-%{release}
 
-# We're supposed to specify a version here, but this is pointless because ANGLE
-# doesn't do normal releases. WebKit uses git snapshots.
+# We're supposed to specify versions here, but these crap Google libs don't do
+# normal releases. Accordingly, they're not suitable to be system libs.
 Provides:	bundled(angle)
+Provides:       bundled(brotli)
+Provides:       bundled(woff2)
 
 # Require the jsc subpackage
 Requires:       %{name}-jsc%{?_isa} = %{version}-%{release}
@@ -252,6 +256,10 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Tue Jun 28 2016 Michael Catanzaro <mcatanzaro@igalia.com> - 2.13.2-3
+- Disable NPAPI in Wayland
+- Specify more bundled provides
+
 * Thu Jun 23 2016 Tomas Popela <tpopela@redhat.com> - 2.13.2-2
 - Enable JIT and BMalloc on ARMv7
 
