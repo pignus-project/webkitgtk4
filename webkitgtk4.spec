@@ -174,7 +174,7 @@ pushd %{_target_platform}
 %ifarch s390 aarch64
   -DUSE_LD_GOLD=OFF \
 %endif
-%ifarch s390 s390x ppc %{power64} aarch64 %{mips}
+%ifarch s390 s390x ppc %{power64} aarch64 %{mips} %{arm}
   -DENABLE_JIT=OFF \
 %endif
 %ifarch s390 s390x ppc %{power64} aarch64 %{mips}
@@ -259,6 +259,7 @@ make %{?_smp_mflags} -C %{_target_platform}
 * Tue Jun 28 2016 Michael Catanzaro <mcatanzaro@igalia.com> - 2.13.2-3
 - Disable NPAPI in Wayland
 - Specify more bundled provides
+- Again disable JIT on ARMv7 until rhbz#1350982 is fixed
 
 * Thu Jun 23 2016 Tomas Popela <tpopela@redhat.com> - 2.13.2-2
 - Enable JIT and BMalloc on ARMv7
