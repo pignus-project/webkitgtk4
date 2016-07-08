@@ -7,7 +7,7 @@
 
 Name:           webkitgtk4
 Version:        2.13.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -19,10 +19,8 @@ Patch0:         webkitgtk-2.7.90-user-agent-branding.patch
 # https://fedoraproject.org/wiki/Packaging:CryptoPolicies
 # https://bugs.webkit.org/show_bug.cgi?id=158785
 Patch1:		fedora-crypto-policy.patch
-# https://bugs.webkit.org/show_bug.cgi?id=159083
-Patch2:		webkitgtk-2.13.2-armv7_thumb2.patch
 # https://bugs.webkit.org/show_bug.cgi?id=158697
-Patch3:         webkitgtk-2.13.2-disable-npapi-in-wayland.patch
+Patch2:         webkitgtk-2.13.2-disable-npapi-in-wayland.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -174,6 +172,7 @@ pushd %{_target_platform}
 %ifarch s390 aarch64
   -DUSE_LD_GOLD=OFF \
 %endif
+# Disable JIT on ARM until https://bugs.webkit.org/show_bug.cgi?id=159408 is fixed
 %ifarch s390 s390x ppc %{power64} aarch64 %{mips} %{arm}
   -DENABLE_JIT=OFF \
 %endif
@@ -256,12 +255,15 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Fri Jul 08 2016 Tomas Popela <tpopela@redhat.com> - 2.13.2-4
+- Remove the wrong patch for THUMB2 support
+
 * Tue Jun 28 2016 Michael Catanzaro <mcatanzaro@igalia.com> - 2.13.2-3
 - Disable NPAPI in Wayland
 - Specify more bundled provides
 - Again disable JIT on ARMv7 until rhbz#1350982 is fixed
 
-* Thu Jun 23 2016 Tomas Popela <tpopela@redhat.com> - 2.13.2-2
+* Tue Jun 28 2016 Tomas Popela <tpopela@redhat.com> - 2.13.2-2
 - Enable JIT and BMalloc on ARMv7
 
 * Thu Jun 23 2016 Tomas Popela <tpopela@redhat.com> - 2.13.2-1
