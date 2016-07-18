@@ -6,8 +6,8 @@
         cp -p %1 _license_files/$(echo '%1' | sed -e 's!/!.!g')
 
 Name:           webkitgtk4
-Version:        2.13.2
-Release:        4%{?dist}
+Version:        2.13.3
+Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -172,8 +172,7 @@ pushd %{_target_platform}
 %ifarch s390 aarch64
   -DUSE_LD_GOLD=OFF \
 %endif
-# Disable JIT on ARM until https://bugs.webkit.org/show_bug.cgi?id=159408 is fixed
-%ifarch s390 s390x ppc %{power64} aarch64 %{mips} %{arm}
+%ifarch s390 s390x ppc %{power64} aarch64 %{mips}
   -DENABLE_JIT=OFF \
 %endif
 %ifarch s390 s390x ppc %{power64} aarch64 %{mips}
@@ -255,6 +254,10 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Mon Jul 18 2016 Tomas Popela <tpopela@redhat.com> - 2.13.3-1
+- Update to 2.13.3
+- Enable JIT on ARMv7
+
 * Fri Jul 08 2016 Tomas Popela <tpopela@redhat.com> - 2.13.2-4
 - Remove the wrong patch for THUMB2 support
 
