@@ -6,7 +6,7 @@
         cp -p %1 _license_files/$(echo '%1' | sed -e 's!/!.!g')
 
 Name:           webkitgtk4
-Version:        2.13.4
+Version:        2.13.90
 Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
@@ -20,6 +20,10 @@ Patch0:         webkitgtk-2.7.90-user-agent-branding.patch
 # https://bugs.webkit.org/show_bug.cgi?id=158785
 Patch1:		fedora-crypto-policy.patch
 # https://bugs.webkit.org/show_bug.cgi?id=158697
+# They are seriously broken. We will not enable these in Fedora until the
+# upstream bug is fixed. The only known plugin this affects is the
+# gnome-shell browser plugin, which we don't want to support anyway due to
+# the huge number crash reports.
 Patch2:         webkitgtk-2.13.2-disable-npapi-in-wayland.patch
 
 BuildRequires:  at-spi2-core-devel
@@ -254,6 +258,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Wed Aug 31 2016 Tomas Popela <tpopela@redhat.com> - 2.13.90-1
+- Update to 2.13.90
+
 * Wed Jul 27 2016 Tomas Popela <tpopela@redhat.com> - 2.13.4-1
 - Update to 2.13.4
 
