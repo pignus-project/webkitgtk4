@@ -1,0 +1,11 @@
+Index: /Source/WebKit2/NetworkProcess/NetworkResourceLoader.cpp
+===================================================================
+--- a/Source/WebKit2/NetworkProcess/NetworkResourceLoader.cpp
++++ b/Source/WebKit2/NetworkProcess/NetworkResourceLoader.cpp
+@@ -407,5 +407,5 @@
+         sendReplyToSynchronousRequest(*m_synchronousLoadData, nullptr);
+     } else if (auto* connection = messageSenderConnection())
+-        connection->send(Messages::WebResourceLoader::DidFailResourceLoad(error), 0, 0);
++        connection->send(Messages::WebResourceLoader::DidFailResourceLoad(error), messageSenderDestinationID(), 0);
+ 
+     cleanup();
