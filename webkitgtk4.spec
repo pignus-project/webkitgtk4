@@ -248,7 +248,7 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
-* Thu Sep 01 2016 Michael Catanzaro <mcatanzaro@igalia.com> - 2.12.4-1
+* Thu Sep 01 2016 Michael Catanzaro <mcatanzaro@igalia.com> - 2.12.4-2
 - Add patch for network loader regression
 
 * Wed Aug 24 2016 Tomas Popela <tpopela@redhat.com> - 2.12.4-1
