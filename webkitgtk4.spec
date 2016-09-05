@@ -6,8 +6,8 @@
         cp -p %1 _license_files/$(echo '%1' | sed -e 's!/!.!g')
 
 Name:           webkitgtk4
-Version:        2.12.4
-Release:        2%{?dist}
+Version:        2.12.5
+Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -16,8 +16,6 @@ Source0:        http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
 
 # https://bugs.webkit.org/show_bug.cgi?id=142074
 Patch0:         webkitgtk-2.7.90-user-agent-branding.patch
-# https://bugs.webkit.org/show_bug.cgi?id=161494
-Patch1:         webkitgtk-2.12.4-message-sender-destination.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -248,6 +246,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Mon Sep 05 2016 Tomas Popela <tpopela@redhat.com> - 2.12.5-1
+- Update to 2.12.5
+
 * Thu Sep 01 2016 Michael Catanzaro <mcatanzaro@igalia.com> - 2.12.4-2
 - Add patch for network loader regression
 
