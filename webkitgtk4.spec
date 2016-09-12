@@ -6,7 +6,7 @@
         cp -p %1 _license_files/$(echo '%1' | sed -e 's!/!.!g')
 
 Name:           webkitgtk4
-Version:        2.13.90
+Version:        2.13.91
 Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
