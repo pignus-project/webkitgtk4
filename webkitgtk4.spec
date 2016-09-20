@@ -6,7 +6,7 @@
         cp -p %1 _license_files/$(echo '%1' | sed -e 's!/!.!g')
 
 Name:           webkitgtk4
-Version:        2.12.5
+Version:        2.14.0
 Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
@@ -16,6 +16,9 @@ Source0:        http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
 
 # https://bugs.webkit.org/show_bug.cgi?id=142074
 Patch0:         webkitgtk-2.7.90-user-agent-branding.patch
+# https://fedoraproject.org/wiki/Packaging:CryptoPolicies
+# https://bugs.webkit.org/show_bug.cgi?id=158785
+Patch1:         fedora-crypto-policy.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -54,6 +57,7 @@ BuildRequires:  perl-Switch
 BuildRequires:  ruby rubypick rubygems
 BuildRequires:  sqlite-devel
 BuildRequires:  hyphen-devel
+BuildRequires:  gnutls-devel
 %ifarch ppc
 BuildRequires:  libatomic
 %endif
@@ -64,9 +68,11 @@ Requires:       geoclue2
 Obsoletes:      libwebkit2gtk < 2.5.0
 Provides:       libwebkit2gtk = %{version}-%{release}
 
-# We're supposed to specify a version here, but this is pointless because ANGLE
-# doesn't do normal releases. WebKit uses git snapshots.
-Provides:	bundled(angle)
+# We're supposed to specify versions here, but these crap Google libs don't do
+# normal releases. Accordingly, they're not suitable to be system libs.
+Provides:       bundled(angle)
+Provides:       bundled(brotli)
+Provides:       bundled(woff2)
 
 # Require the jsc subpackage
 Requires:       %{name}-jsc%{?_isa} = %{version}-%{release}
@@ -167,7 +173,7 @@ pushd %{_target_platform}
 %ifarch s390 s390x ppc %{power64} aarch64 %{mips}
   -DENABLE_JIT=OFF \
 %endif
-%ifarch s390 s390x ppc %{power64} %{arm} aarch64 %{mips}
+%ifarch s390 s390x ppc %{power64} aarch64 %{mips}
   -DUSE_SYSTEM_MALLOC=ON \
 %endif
   ..
@@ -246,6 +252,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Tue Sep 20 2016 Tomas Popela <tpopela@redhat.com> - 2.14.0-1
+- Update to 2.14.0
+
 * Mon Sep 05 2016 Tomas Popela <tpopela@redhat.com> - 2.12.5-1
 - Update to 2.12.5
 
