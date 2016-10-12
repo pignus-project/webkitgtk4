@@ -220,7 +220,7 @@ make %{?_smp_mflags} -C %{_target_platform}
 %exclude %{_libexecdir}/webkit2gtk-4.0/WebKitPluginProcess2
 
 %files devel
-%{_bindir}/MiniBrowser
+%{_libexecdir}/webkit2gtk-4.0/MiniBrowser
 %{_includedir}/webkitgtk-4.0/
 %exclude %{_includedir}/webkitgtk-4.0/JavaScriptCore
 %{_libdir}/libwebkit2gtk-4.0.so
@@ -235,7 +235,7 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_libdir}/girepository-1.0/JavaScriptCore-4.0.typelib
 
 %files jsc-devel
-%{_bindir}/jsc
+%{_libexecdir}/webkit2gtk-4.0/jsc
 %dir %{_includedir}/webkitgtk-4.0
 %{_includedir}/webkitgtk-4.0/JavaScriptCore/
 %{_libdir}/libjavascriptcoregtk-4.0.so
