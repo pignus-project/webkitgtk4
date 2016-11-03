@@ -6,8 +6,8 @@
         cp -p %1 _license_files/$(echo '%1' | sed -e 's!/!.!g')
 
 Name:           webkitgtk4
-Version:        2.14.1
-Release:        2%{?dist}
+Version:        2.14.2
+Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -19,8 +19,6 @@ Patch0:         webkitgtk-2.14.1-user-agent-branding.patch
 # https://fedoraproject.org/wiki/Packaging:CryptoPolicies
 # https://bugs.webkit.org/show_bug.cgi?id=158785
 Patch1:		fedora-crypto-policy.patch
-# https://bugs.webkit.org/show_bug.cgi?id=163333
-Patch2:		eglGetPlatformDisplay.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -254,6 +252,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Thu Nov 03 2016 Tomas Popela <tpopela@redhat.com> - 2.14.2-1
+- Update to 2.14.2
+
 * Wed Oct 12 2016 Adam Jackson <ajax@redhat.com> - 2.14.1-2
 - Prefer eglGetPlatformDisplay to eglGetDisplay
 
