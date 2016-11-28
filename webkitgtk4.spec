@@ -7,7 +7,7 @@
 
 Name:           webkitgtk4
 Version:        2.16.1
-Release:        2%{?dist}
+Release:        2%{?dist}.pi1
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -179,7 +179,7 @@ pushd %{_target_platform}
 %ifarch s390 aarch64
   -DUSE_LD_GOLD=OFF \
 %endif
-%ifarch s390 s390x ppc %{power64} aarch64 %{mips}
+%ifarch s390 s390x ppc %{power64} aarch64 %{mips} armv6hl
   -DENABLE_JIT=OFF \
 %endif
 %ifarch s390 s390x ppc %{power64} aarch64 %{mips}
@@ -261,6 +261,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Sat Apr 08 2017 Lubomir Rintel <lkundrak@v3.sk> - 2.16.1-2.pi1
+- Disable JIT on armv6hl
+
 * Thu Apr 06 2017 Tomas Popela <tpopela@redhat.com> - 2.16.1-2
 - Add patch for freezing regression
 
