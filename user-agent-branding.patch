@@ -1,0 +1,14 @@
+diff -up webkitgtk-2.14.3/Source/WebCore/platform/gtk/UserAgentGtk.cpp.orig webkitgtk-2.14.3/Source/WebCore/platform/gtk/UserAgentGtk.cpp
+--- webkitgtk-2.14.3/Source/WebCore/platform/gtk/UserAgentGtk.cpp.orig	2017-01-17 16:33:10.899640430 +0100
++++ webkitgtk-2.14.3/Source/WebCore/platform/gtk/UserAgentGtk.cpp	2017-01-17 16:32:26.930817219 +0100
+@@ -125,6 +125,10 @@ static String buildUserAgentString(const
+ 
+     uaString.appendLiteral("; ");
+ 
++#ifdef USER_AGENT_GTK_DISTRIBUTOR_NAME
++    uaString.appendLiteral(USER_AGENT_GTK_DISTRIBUTOR_NAME "; ");
++#endif
++
+     if (quirks.contains(UserAgentQuirks::NeedsMacintoshPlatform))
+         uaString.appendLiteral("Intel Mac OS X 10_12");
+     else if (quirks.contains(UserAgentQuirks::NeedsLinuxDesktopPlatform))

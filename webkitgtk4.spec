@@ -6,7 +6,7 @@
         cp -p %1 _license_files/$(echo '%1' | sed -e 's!/!.!g')
 
 Name:           webkitgtk4
-Version:        2.14.2
+Version:        2.14.3
 Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
@@ -15,7 +15,7 @@ URL:            http://www.webkitgtk.org/
 Source0:        http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
 
 # https://bugs.webkit.org/show_bug.cgi?id=162611
-Patch0:         webkitgtk-2.14.1-user-agent-branding.patch
+Patch0:         user-agent-branding.patch
 # https://fedoraproject.org/wiki/Packaging:CryptoPolicies
 # https://bugs.webkit.org/show_bug.cgi?id=158785
 Patch1:		fedora-crypto-policy.patch
@@ -252,6 +252,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Tue Jan 17 2017 Tomas Popela <tpopela@redhat.com> - 2.14.3-1
+- Update to 2.14.3
+
 * Thu Nov 03 2016 Tomas Popela <tpopela@redhat.com> - 2.14.2-1
 - Update to 2.14.2
 
