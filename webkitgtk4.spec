@@ -54,6 +54,7 @@ BuildRequires:  libwayland-server-devel
 BuildRequires:  mesa-libGL-devel
 BuildRequires:  pcre-devel
 BuildRequires:  perl-Switch
+BuildRequires:  perl-JSON-PP
 BuildRequires:  ruby rubypick rubygems
 BuildRequires:  sqlite-devel
 BuildRequires:  hyphen-devel
