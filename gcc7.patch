@@ -23,3 +23,14 @@ diff -up webkitgtk-2.15.4/Source/JavaScriptCore/runtime/JSArrayBufferView.h.gcc7
      
      unsigned byteOffset();
      unsigned length() const { return m_length; }
+diff -up webkitgtk-2.15.4/Source/WebCore/bindings/js/JSDOMWindowBase.cpp.gcc7 webkitgtk-2.15.4/Source/WebCore/bindings/js/JSDOMWindowBase.cpp
+--- webkitgtk-2.15.4/Source/WebCore/bindings/js/JSDOMWindowBase.cpp.gcc7	2017-02-02 16:43:56.333463608 +0100
++++ webkitgtk-2.15.4/Source/WebCore/bindings/js/JSDOMWindowBase.cpp	2017-02-02 16:44:32.659278744 +0100
+@@ -44,6 +44,7 @@
+ #include "SecurityOrigin.h"
+ #include "Settings.h"
+ #include "WebCoreJSClientData.h"
++#include <bytecode/CodeBlock.h>
+ #include <heap/StrongInlines.h>
+ #include <runtime/JSInternalPromiseDeferred.h>
+ #include <runtime/Microtask.h>
