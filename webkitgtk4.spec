@@ -256,7 +256,7 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
-* Wed Feb 02 2017 Tomas Popela <tpopela@redhat.com> - 2.15.4-3
+* Thu Feb 02 2017 Tomas Popela <tpopela@redhat.com> - 2.15.4-3
 - Push gcc7 fixes, only buildable with gcc-7.0.1-0.5.fc26 and higher
 
 * Wed Feb 01 2017 Sandro Mani <manisandro@gmail.com> - 2.15.4-2
