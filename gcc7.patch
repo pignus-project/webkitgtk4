@@ -1,0 +1,25 @@
+diff -up webkitgtk-2.15.4/Source/cmake/OptionsCommon.cmake.gcc7 webkitgtk-2.15.4/Source/cmake/OptionsCommon.cmake
+--- webkitgtk-2.15.4/Source/cmake/OptionsCommon.cmake.gcc7	2017-02-01 08:19:21.694981976 +0100
++++ webkitgtk-2.15.4/Source/cmake/OptionsCommon.cmake	2017-02-01 08:21:27.255494123 +0100
+@@ -40,7 +40,8 @@ define_property(TARGET PROPERTY FOLDER I
+ if (COMPILER_IS_GCC_OR_CLANG)
+     set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -fno-exceptions -fno-strict-aliasing")
+     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fno-exceptions -fno-strict-aliasing -fno-rtti")
+-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y")
++    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -Wno-expansion-to-defined")
++    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-expansion-to-defined")
+ endif ()
+ 
+ if (COMPILER_IS_CLANG AND CMAKE_GENERATOR STREQUAL "Ninja")
+diff -up webkitgtk-2.15.4/Source/JavaScriptCore/runtime/JSArrayBufferView.h.gcc7 webkitgtk-2.15.4/Source/JavaScriptCore/runtime/JSArrayBufferView.h
+--- webkitgtk-2.15.4/Source/JavaScriptCore/runtime/JSArrayBufferView.h.gcc7	2017-02-01 08:23:15.678072858 +0100
++++ webkitgtk-2.15.4/Source/JavaScriptCore/runtime/JSArrayBufferView.h	2017-02-01 08:23:37.171989345 +0100
+@@ -167,7 +167,7 @@ public:
+     bool isNeutered() { return hasArrayBuffer() && !vector(); }
+     void neuter();
+     
+-    void* vector() { return m_vector.get(); }
++    void* vector() const { return m_vector.get(); }
+     
+     unsigned byteOffset();
+     unsigned length() const { return m_length; }

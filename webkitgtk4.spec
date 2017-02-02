@@ -7,7 +7,7 @@
 
 Name:           webkitgtk4
 Version:        2.15.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -19,6 +19,9 @@ Patch0:         webkitgtk-2.14.1-user-agent-branding.patch
 # https://fedoraproject.org/wiki/Packaging:CryptoPolicies
 # https://bugs.webkit.org/show_bug.cgi?id=158785
 Patch1:		fedora-crypto-policy.patch
+# https://bugs.webkit.org/show_bug.cgi?id=167642
+# https://bugs.webkit.org/show_bug.cgi?id=167643
+Patch2:     gcc7.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -253,6 +256,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Wed Feb 02 2017 Tomas Popela <tpopela@redhat.com> - 2.15.4-3
+- Push gcc7 fixes, only buildable with gcc-7.0.1-0.5.fc26 and higher
+
 * Wed Feb 01 2017 Sandro Mani <manisandro@gmail.com> - 2.15.4-2
 - Rebuild (libwebp)
 
