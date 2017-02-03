@@ -21,6 +21,7 @@ Patch0:         webkitgtk-2.14.1-user-agent-branding.patch
 Patch1:		fedora-crypto-policy.patch
 # https://bugs.webkit.org/show_bug.cgi?id=167642
 # https://bugs.webkit.org/show_bug.cgi?id=167643
+# https://bugs.webkit.org/show_bug.cgi?id=167785
 Patch2:     gcc7.patch
 
 BuildRequires:  at-spi2-core-devel
