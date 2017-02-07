@@ -7,7 +7,7 @@
 
 Name:           webkitgtk4
 Version:        2.15.4
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -23,6 +23,10 @@ Patch1:		fedora-crypto-policy.patch
 # https://bugs.webkit.org/show_bug.cgi?id=167643
 # https://bugs.webkit.org/show_bug.cgi?id=167785
 Patch2:     gcc7.patch
+# https://bugs.webkit.org/show_bug.cgi?id=167876
+Patch3:     0001-Soup-Deadlock-in-NetworkProcess.patch
+# https://bugs.webkit.org/show_bug.cgi?id=167890
+Patch4:     0001-Soup-Long-resources-loaded-by-custom-protocols-somet.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -257,6 +261,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Tue Feb 07 2017 Tomas Popela <tpopela@redhat.com> - 2.15.4-4
+- Add patches to make Evolution usable again - rhbz#1418413
+
 * Thu Feb 02 2017 Tomas Popela <tpopela@redhat.com> - 2.15.4-3
 - Push gcc7 fixes, only buildable with gcc-7.0.1-0.5.fc26 and higher
 
