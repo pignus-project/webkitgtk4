@@ -27,6 +27,8 @@ Patch2:     gcc7.patch
 Patch3:     0001-Soup-Deadlock-in-NetworkProcess.patch
 # https://bugs.webkit.org/show_bug.cgi?id=167890
 Patch4:     0001-Soup-Long-resources-loaded-by-custom-protocols-somet.patch
+# https://bugs.webkit.org/show_bug.cgi?id=167929
+Patch5:     wk2-custom-protocols.diff
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
