@@ -155,7 +155,7 @@ rm -rf Source/ThirdParty/qunit/
 %endif
 
 %if 0%{?fedora}
-%global optflags %{optflags} -DUSER_AGENT_GTK_DISTRIBUTOR_NAME=\'\\"Fedora\\"\'
+%global optflags %{optflags} -DUSER_AGENT_GTK_DISTRIBUTOR_NAME=\'\\"Fedora\\"\' -D__GCC_HAVE_SYNC_COMPARE_AND_SWAP_8
 %endif
 
 # Disable ld.gold on s390 as it does not have it.
