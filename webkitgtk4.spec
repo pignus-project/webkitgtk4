@@ -6,8 +6,8 @@
         cp -p %1 _license_files/$(echo '%1' | sed -e 's!/!.!g')
 
 Name:           webkitgtk4
-Version:        2.15.4
-Release:        4%{?dist}
+Version:        2.15.90
+Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -15,20 +15,12 @@ URL:            http://www.webkitgtk.org/
 Source0:        http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
 
 # https://bugs.webkit.org/show_bug.cgi?id=162611
-Patch0:         webkitgtk-2.14.1-user-agent-branding.patch
+Patch0:     webkitgtk-2.14.1-user-agent-branding.patch
 # https://fedoraproject.org/wiki/Packaging:CryptoPolicies
 # https://bugs.webkit.org/show_bug.cgi?id=158785
-Patch1:		fedora-crypto-policy.patch
-# https://bugs.webkit.org/show_bug.cgi?id=167642
+Patch1:     fedora-crypto-policy.patch
 # https://bugs.webkit.org/show_bug.cgi?id=167643
-# https://bugs.webkit.org/show_bug.cgi?id=167785
 Patch2:     gcc7.patch
-# https://bugs.webkit.org/show_bug.cgi?id=167876
-Patch3:     0001-Soup-Deadlock-in-NetworkProcess.patch
-# https://bugs.webkit.org/show_bug.cgi?id=167890
-Patch4:     0001-Soup-Long-resources-loaded-by-custom-protocols-somet.patch
-# https://bugs.webkit.org/show_bug.cgi?id=167929
-Patch5:     wk2-custom-protocols.diff
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -263,6 +255,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Tue Feb 21 2017 Tomas Popela <tpopela@redhat.com> - 2.15.90-1
+- Update to 2.15.90
+
 * Tue Feb 07 2017 Tomas Popela <tpopela@redhat.com> - 2.15.4-4
 - Add patches to make Evolution usable again - rhbz#1418413
 
