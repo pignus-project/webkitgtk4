@@ -7,7 +7,7 @@
 
 Name:           webkitgtk4
 Version:        2.15.90
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -21,6 +21,8 @@ Patch0:     webkitgtk-2.14.1-user-agent-branding.patch
 Patch1:     fedora-crypto-policy.patch
 # https://bugs.webkit.org/show_bug.cgi?id=167643
 Patch2:     gcc7.patch
+# https://bugs.webkit.org/show_bug.cgi?id=168699
+Patch3:     0001-GTK-Hangs-when-showing-Google-search-results.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -255,6 +257,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Fri Feb 24 2017 Bastien Nocera <bnocera@redhat.com> - 2.15.90-2
+- Add patch to fix hangs when showing the Google search page
+
 * Tue Feb 21 2017 Tomas Popela <tpopela@redhat.com> - 2.15.90-1
 - Update to 2.15.90
 
