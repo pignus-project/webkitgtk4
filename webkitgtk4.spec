@@ -6,8 +6,8 @@
         cp -p %1 _license_files/$(echo '%1' | sed -e 's!/!.!g')
 
 Name:           webkitgtk4
-Version:        2.15.90
-Release:        2%{?dist}
+Version:        2.15.91
+Release:        1%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -21,8 +21,6 @@ Patch0:     webkitgtk-2.14.1-user-agent-branding.patch
 Patch1:     fedora-crypto-policy.patch
 # https://bugs.webkit.org/show_bug.cgi?id=167643
 Patch2:     gcc7.patch
-# https://bugs.webkit.org/show_bug.cgi?id=168699
-Patch3:     0001-GTK-Hangs-when-showing-Google-search-results.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -98,6 +96,7 @@ This package contains WebKitGTK+ for GTK+ 3.
 %package        devel
 Summary:        Development files for %{name}
 Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       %{name}-jsc%{?_isa} = %{version}-%{release}
 Requires:       %{name}-jsc-devel%{?_isa} = %{version}-%{release}
 
 %description    devel
@@ -129,6 +128,7 @@ files for developing applications that use JavaScript engine from %{name}.
 %package        plugin-process-gtk2
 Summary:        GTK+ 2 based NPAPI plugins support for %{name}
 Obsoletes:      %{name} < 2.12.0-3
+Requires:       %{name}-jsc%{?_isa} = %{version}-%{release}
 
 %description    plugin-process-gtk2
 Support for the GTK+ 2 based NPAPI plugins (such as Adobe Flash) for %{name}.
@@ -257,6 +257,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Wed Mar 01 2017 Tomas Popela <tpopela@redhat.com> - 2.15.91-1
+- Update to 2.15.91
+
 * Fri Feb 24 2017 Bastien Nocera <bnocera@redhat.com> - 2.15.90-2
 - Add patch to fix hangs when showing the Google search page
 
