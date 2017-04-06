@@ -7,7 +7,7 @@
 
 Name:           webkitgtk4
 Version:        2.16.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GTK+ Web content engine library
 
 License:        LGPLv2
@@ -21,6 +21,10 @@ Patch0:     webkitgtk-2.14.1-user-agent-branding.patch
 Patch1:     fedora-crypto-policy.patch
 # https://bugs.webkit.org/show_bug.cgi?id=167643
 Patch2:     gcc7.patch
+# https://bugs.webkit.org/show_bug.cgi?id=170450
+Patch3:         0001-Merge-r214319-JSC-MachineThreads-does-not-consider-s.patch
+# https://bugs.webkit.org/show_bug.cgi?id=170506
+Patch4:         0001-Show-a-log-message-when-an-invalid-message-is-receiv.patch
 
 BuildRequires:  at-spi2-core-devel
 BuildRequires:  bison
@@ -257,6 +261,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Thu Apr 06 2017 Tomas Popela <tpopela@redhat.com> - 2.16.1-2
+- Add patch for freezing regression
+
 * Tue Apr 04 2017 Tomas Popela <tpopela@redhat.com> - 2.16.1-1
 - Update to 2.16.1
 
